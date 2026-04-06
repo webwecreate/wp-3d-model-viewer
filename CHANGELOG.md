@@ -1,6 +1,17 @@
 # CHANGELOG — WP 3D Model Viewer Plugin
 > ห้ามเขียนทับ — เพิ่มรายการใหม่ด้านบนเสมอ (newest first)
+---
 
+## [1.0.1] — 2026-04-06 — Part 1
+### Added
+
+- wp-3d-model-viewer.php — Main plugin file; constants, PHP/WP version checks, boot via wp3dmv()
+- includes/class-wp3dmv-loader.php — Hook loader; collects actions/filters and registers them with WordPress
+- includes/class-wp3dmv-activator.php — Activation handler; writes default options, validates environment
+- includes/class-wp3dmv-deactivator.php — Deactivation handler; flushes rewrite rules (options kept)
+- includes/class-wp3dmv-i18n.php — Text domain loader
+- includes/class-wp3dmv-core.php — Singleton bootstrap; loads all modules, wires hooks via Loader
+- uninstall.php — Removes all options and post meta on plugin deletion
 ---
 
 ## [1.0.0] — 2026-04-06
