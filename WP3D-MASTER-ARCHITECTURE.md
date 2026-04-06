@@ -319,18 +319,18 @@ Admin → WP 3D Model Viewer → Settings
 
 > แบ่งงานเป็น Chat ย่อย เพื่อไม่ให้ context เต็ม
 
-| Chat # | งาน | ไฟล์ที่เกี่ยวข้อง |
+| Part # | งาน | ไฟล์ที่เกี่ยวข้อง |
 |--------|-----|-----------------|
-| Chat 1 | Main plugin file + Core class + Activator | `wp-3d-model-viewer.php`, `class-wp3dmv-core.php`, `class-wp3dmv-activator.php`, `class-wp3dmv-loader.php` |
-| Chat 2 | Admin + Settings + Product Metabox | `class-wp3dmv-admin.php`, `class-wp3dmv-settings.php`, `class-wp3dmv-product-meta.php` |
-| Chat 3 | Admin JS + Media Upload | `wp3dmv-admin.js`, `wp3dmv-media-upload.js`, `wp3dmv-admin.css` |
-| Chat 4 | Public class + Viewer PHP + Template | `class-wp3dmv-public.php`, `class-wp3dmv-viewer.php`, `viewer-template.php` |
-| Chat 5 | **JavaScript Viewer** (Three.js core) | `wp3dmv-viewer.js`, `wp3dmv-controls.js`, `wp3dmv-loader.js` |
-| Chat 6 | CSS + Responsive + Mobile touch | `wp3dmv-public.css` |
-| Chat 7 | WooCommerce integration | `class-wp3dmv-woocommerce.php`, `single-product-3d.php` |
-| Chat 8 | Elementor Widget | `class-wp3dmv-elementor.php`, `class-widget-3d-viewer.php` |
-| Chat 9 | AJAX + Security | `class-wp3dmv-ajax.php` |
-| Chat 10 | Testing + Bugfix | ทุกไฟล์ |
+| Part 1 | Main plugin file + Core class + Activator | `wp-3d-model-viewer.php`, `class-wp3dmv-core.php`, `class-wp3dmv-activator.php`, `class-wp3dmv-loader.php` |
+| Part 2 | Admin + Settings + Product Metabox | `class-wp3dmv-admin.php`, `class-wp3dmv-settings.php`, `class-wp3dmv-product-meta.php` |
+| Part 3 | Admin JS + Media Upload | `wp3dmv-admin.js`, `wp3dmv-media-upload.js`, `wp3dmv-admin.css` |
+| Part 4 | Public class + Viewer PHP + Template | `class-wp3dmv-public.php`, `class-wp3dmv-viewer.php`, `viewer-template.php` |
+| Part 5 | **JavaScript Viewer** (Three.js core) | `wp3dmv-viewer.js`, `wp3dmv-controls.js`, `wp3dmv-loader.js` |
+| Part 6 | CSS + Responsive + Mobile touch | `wp3dmv-public.css` |
+| Part 7 | WooCommerce integration | `class-wp3dmv-woocommerce.php`, `single-product-3d.php` |
+| Part 8 | Elementor Widget | `class-wp3dmv-elementor.php`, `class-widget-3d-viewer.php` |
+| Part 9 | AJAX + Security | `class-wp3dmv-ajax.php` |
+| Part 10 | Testing + Bugfix | ทุกไฟล์ |
 
 ---
 
