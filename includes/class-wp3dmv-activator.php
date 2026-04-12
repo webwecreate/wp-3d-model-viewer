@@ -7,7 +7,7 @@
  *
  * @package    WP3DModelViewer
  * @subpackage WP3DModelViewer/includes
- * @version    1.0.0
+ * @version    1.0.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -22,26 +22,22 @@ class WP3DMV_Activator {
      * @var array
      */
     private static $default_settings = array(
-        'default_bg_color'       => '#f5f5f5',
-        'default_height'         => 400,
-        'default_auto_rotate'    => true,
-        'default_rotation_speed' => 1.0,
-        'enable_zoom'            => true,
-        'enable_fullscreen'      => true,
-        'show_controls_hint'     => true,
-        'loading_text'           => 'กำลังโหลด...',
-        'cache_duration'         => 3600,
-        'wc_default_position'    => 'below_gallery',
-        'wc_tab_label'           => 'ดู 3D',
-        'lazy_load'              => true,
-        'max_texture_size'       => 2048,
-        'initial_camera_distance'=> 3,
+        'default_bg_color'        => '#f5f5f5',
+        'default_height'          => 400,
+        'default_auto_rotate'     => true,
+        'default_rotation_speed'  => 1.0,
+        'enable_zoom'             => true,
+        'enable_fullscreen'       => true,
+        'show_controls_hint'      => true,
+        'loading_text'            => 'กำลังโหลด...',
+        'cache_duration'          => 3600,
+        'lazy_load'               => true,
+        'max_texture_size'        => 2048,
+        'initial_camera_distance' => 3,
     );
 
     /**
      * Plugin activation handler.
-     *
-     * Hooked to register_activation_hook() in the main plugin file.
      */
     public static function activate() {
         // ── 1. Check PHP Version ──────────────────────────────────────────────
@@ -83,7 +79,7 @@ class WP3DMV_Activator {
         update_option( 'wp3dmv_version', WP3DMV_VERSION );
         update_option( 'wp3dmv_activated_at', current_time( 'mysql' ) );
 
-        // ── 5. Flush Rewrite Rules (shortcodes may add endpoints later) ───────
+        // ── 5. Flush Rewrite Rules ────────────────────────────────────────────
         flush_rewrite_rules();
     }
 
