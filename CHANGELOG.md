@@ -1,5 +1,25 @@
 # CHANGELOG — WP 3D Model Viewer Plugin
 > ห้ามเขียนทับ — เพิ่มรายการใหม่ด้านบนเสมอ (newest first)
+
+---
+
+## [1.1.1] — 2026-04-12 — Part 1 Hotfix (WC Removal)
+
+### Changed
+- `includes/class-wp3dmv-core.php` v1.0.0 → v1.0.1
+  - ลบ `maybe_load` ของ `class-wp3dmv-product-meta.php` และ `class-wp3dmv-woocommerce.php`
+  - ลบ `WP3DMV_Product_Meta` block ออกจาก `define_admin_hooks()`
+  - ลบ method `define_woocommerce_hooks()` ออกทั้งหมด
+  - ลบ `$this->define_woocommerce_hooks()` ออกจาก `__construct()`
+
+- `includes/class-wp3dmv-activator.php` v1.0.0 → v1.0.1
+  - ลบ `wc_default_position` และ `wc_tab_label` ออกจาก `$default_settings`
+
+### Pending (จาก v1.1.0 — ยังค้างอยู่)
+- `wp-3d-model-viewer.php` v1.0.0 → v1.0.1 (bump version)
+- `class-wp3dmv-admin.php` v1.0.0 → v1.0.1 (ลบ WC references ถ้ามี)
+- `class-wp3dmv-settings.php` v1.0.0 → v1.0.1 (ลบ WC section)
+
 ---
 
 ## [1.1.0] — 2026-04-12 — Architecture Revision (Remove WooCommerce)
