@@ -1,8 +1,9 @@
 # 🏗️ MASTER ARCHITECTURE
 # WP 3D Model Viewer Plugin
-**Version:** 1.0.0  
-**Last Updated:** 2026-04-06  
-**Compatible:** WordPress 6.x | WooCommerce 8.x | Elementor 3.x
+**Version:** 1.1.0  
+**Last Updated:** 2026-04-12  
+**Compatible:** WordPress 6.x | Elementor 3.x  
+**⚠️ WooCommerce: ถอดออกแล้ว — ดู CHANGELOG v1.1.0**
 
 ---
 
@@ -45,10 +46,10 @@
 | License | GPL-2.0+ |
 
 ### วัตถุประสงค์
-แสดง 3D Model แบบ interactive บน product page ของ WooCommerce และ Elementor widget รองรับการหมุน 360° ด้วย mouse/touch drag.
+แสดง 3D Model แบบ interactive บนหน้าเว็บไหนก็ได้ผ่าน Elementor Widget หรือ Shortcode รองรับการหมุน 360° ด้วย mouse/touch drag. **ไม่ขึ้นกับ WooCommerce — ใช้ได้ทุกหน้า**
 
 ### Supported 3D Formats
-- `.glb` — GL Transmission Format Binary (หลัก)
+- `.glb` — GL Transmission Format Binary (หลัก, แนะนำ)
 - `.gltf` — GL Transmission Format (พร้อม textures)
 - `.obj` — Wavefront OBJ (optional future)
 
@@ -61,8 +62,7 @@
 | 3D Renderer | **Three.js r158** | Industry standard, lightweight |
 | Orbit Control | `OrbitControls.js` (Three.js addon) | Mouse/touch drag หมุน 360° |
 | WP Integration | WordPress Plugin API | Standard hooks/filters |
-| WooCommerce | WC Product Meta + Gallery Hook | เชื่อม model กับ product |
-| Elementor | Elementor Widget API | Drag & drop widget |
+| Elementor | Elementor Widget API | Drag & drop widget ใช้ได้ทุกหน้า |
 | Admin UI | Vanilla JS + WP Media Library | จัดการ upload model |
 | Build Tool | None (vanilla, no bundler) | ง่าย deploy บน shared hosting |
 
@@ -73,23 +73,22 @@
 ```
 wp-3d-model-viewer/
 │
-├── 📄 wp-3d-model-viewer.php          # Main plugin file (v1.0.0)
+├── 📄 wp-3d-model-viewer.php          # Main plugin file (v1.0.1)
 ├── 📄 uninstall.php                    # Cleanup on uninstall (v1.0.0)
 ├── 📄 readme.txt                       # WP.org readme
 │
 ├── 📁 includes/                        # Core PHP classes
 │   ├── class-wp3dmv-loader.php         # Hook loader (v1.0.0)
-│   ├── class-wp3dmv-activator.php      # Activation tasks (v1.0.0)
+│   ├── class-wp3dmv-activator.php      # Activation tasks (v1.0.1)
 │   ├── class-wp3dmv-deactivator.php    # Deactivation tasks (v1.0.0)
 │   ├── class-wp3dmv-i18n.php           # Internationalization (v1.0.0)
-│   ├── class-wp3dmv-core.php           # Main plugin class (v1.0.0)
+│   ├── class-wp3dmv-core.php           # Main plugin class (v1.0.1)
 │   ├── class-wp3dmv-viewer.php         # Viewer render logic (v1.0.0)
 │   └── class-wp3dmv-ajax.php           # AJAX handlers (v1.0.0)
 │
 ├── 📁 admin/                           # Admin side
-│   ├── class-wp3dmv-admin.php          # Admin main class (v1.0.0)
-│   ├── class-wp3dmv-settings.php       # Settings page (v1.0.0)
-│   ├── class-wp3dmv-product-meta.php   # WooCommerce product metabox (v1.0.0)
+│   ├── class-wp3dmv-admin.php          # Admin main class (v1.0.1)
+│   ├── class-wp3dmv-settings.php       # Settings page (v1.0.1)
 │   ├── 📁 js/
 │   │   ├── wp3dmv-admin.js             # Admin scripts (v1.0.0)
 │   │   └── wp3dmv-media-upload.js      # WP Media Library upload (v1.0.0)
@@ -112,11 +111,6 @@ wp-3d-model-viewer/
 │   └── widgets/
 │       └── class-widget-3d-viewer.php  # Elementor widget (v1.0.0)
 │
-├── 📁 woocommerce/                     # WooCommerce integration
-│   ├── class-wp3dmv-woocommerce.php    # WC integration class (v1.0.0)
-│   └── templates/
-│       └── single-product-3d.php       # Product page template (v1.0.0)
-│
 ├── 📁 assets/                          # Static assets
 │   ├── 📁 vendor/
 │   │   └── three/
@@ -133,6 +127,12 @@ wp-3d-model-viewer/
 └── 📄 CHANGELOG.md                     # ← อัปเดตทุกครั้งที่แก้ไข
 ```
 
+> 🗑️ **ไฟล์ที่ถอดออก (v1.1.0):**  
+> `admin/class-wp3dmv-product-meta.php` — WC product metabox  
+> `woocommerce/class-wp3dmv-woocommerce.php` — WC integration  
+> `woocommerce/templates/single-product-3d.php` — WC template  
+> (ลบออกจาก repo ได้เลย)
+
 ---
 
 ## 4. DATABASE SCHEMA
@@ -143,24 +143,20 @@ wp_options:
   option_name: wp3dmv_settings
   option_value: {
     "default_bg_color": "#f5f5f5",
+    "default_height": 400,
     "default_auto_rotate": true,
     "default_rotation_speed": 1.0,
     "enable_zoom": true,
     "enable_fullscreen": true,
+    "show_controls_hint": true,
     "loading_text": "กำลังโหลด...",
-    "cache_duration": 3600
+    "lazy_load": true,
+    "max_texture_size": 2048,
+    "initial_camera_distance": 3
   }
 ```
 
-### WordPress Post Meta (WooCommerce Product)
-```
-wp_postmeta:
-  meta_key: _wp3dmv_model_url        # URL ของ .glb file
-  meta_key: _wp3dmv_model_id         # attachment ID ใน Media Library
-  meta_key: _wp3dmv_viewer_settings  # JSON settings เฉพาะ product นี้
-  meta_key: _wp3dmv_enabled          # "yes" / "no"
-  meta_key: _wp3dmv_position         # "replace_gallery" / "below_gallery" / "tab"
-```
+> 🗑️ **ถอดออก (v1.1.0):** `wc_default_position`, `wc_tab_label`
 
 ---
 
@@ -168,15 +164,14 @@ wp_postmeta:
 
 ### 5.1 Main Plugin File — `wp-3d-model-viewer.php`
 ```php
-// File version header (บังคับทุกไฟล์)
 /**
  * Plugin Name: WP 3D Model Viewer
- * Version: 1.0.0
+ * Version: 1.0.1
  * @package WP3DModelViewer
- * @version 1.0.0
+ * @version 1.0.1
  */
 
-define('WP3DMV_VERSION', '1.0.0');
+define('WP3DMV_VERSION', '1.0.1');
 define('WP3DMV_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('WP3DMV_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('WP3DMV_PLUGIN_FILE', __FILE__);
@@ -188,15 +183,15 @@ define('WP3DMV_PLUGIN_FILE', __FILE__);
 | `WP3DMV_Core` | `class-wp3dmv-core.php` | Bootstrap, load all modules |
 | `WP3DMV_Admin` | `class-wp3dmv-admin.php` | Admin menus, pages |
 | `WP3DMV_Settings` | `class-wp3dmv-settings.php` | Plugin settings page |
-| `WP3DMV_Product_Meta` | `class-wp3dmv-product-meta.php` | WC product metabox |
 | `WP3DMV_Public` | `class-wp3dmv-public.php` | Enqueue scripts, shortcodes |
 | `WP3DMV_Viewer` | `class-wp3dmv-viewer.php` | Generate viewer HTML |
-| `WP3DMV_WooCommerce` | `class-wp3dmv-woocommerce.php` | WC hooks |
 | `WP3DMV_Elementor` | `class-wp3dmv-elementor.php` | Register Elementor widget |
 | `WP3DMV_Widget_3D_Viewer` | `class-widget-3d-viewer.php` | Elementor widget class |
 | `WP3DMV_AJAX` | `class-wp3dmv-ajax.php` | AJAX handlers |
 | `WP3DMV_Loader` | `class-wp3dmv-loader.php` | Hook registration |
 | `WP3DMV_Activator` | `class-wp3dmv-activator.php` | Install/upgrade |
+
+> 🗑️ **ถอดออก (v1.1.0):** `WP3DMV_Product_Meta`, `WP3DMV_WooCommerce`
 
 ---
 
@@ -204,33 +199,33 @@ define('WP3DMV_PLUGIN_FILE', __FILE__);
 
 ### WordPress Hooks
 ```
-init                    → WP3DMV_Core::init()
-plugins_loaded          → WP3DMV_Core::load_textdomain()
+init                    → WP3DMV_Public::register_shortcodes()
+plugins_loaded          → WP3DMV_i18n::load_plugin_textdomain()
 wp_enqueue_scripts      → WP3DMV_Public::enqueue_scripts()
 admin_enqueue_scripts   → WP3DMV_Admin::enqueue_scripts()
+admin_init              → WP3DMV_Settings::register_settings()
+admin_menu              → WP3DMV_Admin::add_plugin_admin_menu()
 ```
 
-### WooCommerce Hooks
+### AJAX Hooks
 ```
-add_meta_boxes                          → WP3DMV_Product_Meta::add_metabox()
-woocommerce_process_product_meta        → WP3DMV_Product_Meta::save_meta()
-woocommerce_before_single_product_summary → WP3DMV_WooCommerce::render_viewer() [position A]
-woocommerce_after_single_product_summary  → WP3DMV_WooCommerce::render_viewer() [position B]
-woocommerce_product_tabs                  → WP3DMV_WooCommerce::add_3d_tab()     [position C]
+wp_ajax_wp3dmv_get_model         → WP3DMV_AJAX::get_model()
+wp_ajax_nopriv_wp3dmv_get_model  → WP3DMV_AJAX::get_model()
 ```
 
 ### Shortcodes
 ```
-[wp3dmv_viewer id="POST_ID"]           # แสดง viewer จาก product/post ID
-[wp3dmv_viewer url="MODEL_URL"]        # แสดง viewer จาก URL โดยตรง
-[wp3dmv_viewer id="123" height="500" bg="#fff" autorotate="true"]
+[wp3dmv_viewer url="MODEL_URL"]
+[wp3dmv_viewer url="..." height="500" bg="#fff" autorotate="true"]
 ```
 
 ### Elementor
 ```
-elementor/widgets/register  → WP3DMV_Elementor::register_widgets()
+elementor/widgets/register               → WP3DMV_Elementor::register_widgets()
 elementor/elements/categories_registered → WP3DMV_Elementor::add_category()
 ```
+
+> 🗑️ **ถอดออก (v1.1.0):** WooCommerce hooks ทั้งหมด
 
 ---
 
@@ -274,14 +269,14 @@ DOM Ready
 
 ### 7.3 OrbitControls Settings (Default)
 ```javascript
-controls.enableDamping = true;      // smooth movement
+controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 controls.enableZoom = true;
 controls.minDistance = 1;
 controls.maxDistance = 10;
 controls.autoRotate = settings.autoRotate;
 controls.autoRotateSpeed = settings.rotationSpeed;
-controls.enablePan = false;         // ปิด pan (เดิน)
+controls.enablePan = false;
 ```
 
 ---
@@ -303,58 +298,54 @@ Admin → WP 3D Model Viewer → Settings
 - Enable Zoom                  : checkbox     (true)
 - Initial Camera Distance      : number       (3)
 
-[WooCommerce]
-- Default Position             : select
-    [ replace_gallery | below_gallery | in_tab ]
-- Tab Label                    : text         ("ดู 3D")
-
 [Performance]
 - Lazy Load                    : checkbox     (true)
 - Max Texture Size             : select       (1024 / 2048 / 4096)
 ```
 
+> 🗑️ **ถอดออก (v1.1.0):** Section [WooCommerce] ทั้ง section
+
 ---
 
 ## 9. CHAT SPLITTING GUIDE
 
-> แบ่งงานเป็น Chat ย่อย เพื่อไม่ให้ context เต็ม
-
-| Part # | งาน | ไฟล์ที่เกี่ยวข้อง |
-|--------|-----|-----------------|
-| Part 1 | Main plugin file + Core class + Activator | `wp-3d-model-viewer.php`, `class-wp3dmv-core.php`, `class-wp3dmv-activator.php`, `class-wp3dmv-loader.php` |
-| Part 2 | Admin + Settings + Product Metabox | `class-wp3dmv-admin.php`, `class-wp3dmv-settings.php`, `class-wp3dmv-product-meta.php` |
-| Part 3 | Admin JS + Media Upload | `wp3dmv-admin.js`, `wp3dmv-media-upload.js`, `wp3dmv-admin.css` |
-| Part 4 | Public class + Viewer PHP + Template | `class-wp3dmv-public.php`, `class-wp3dmv-viewer.php`, `viewer-template.php` |
-| Part 5 | **JavaScript Viewer** (Three.js core) | `wp3dmv-viewer.js`, `wp3dmv-controls.js`, `wp3dmv-loader.js` |
-| Part 6 | CSS + Responsive + Mobile touch | `wp3dmv-public.css` |
-| Part 7 | WooCommerce integration | `class-wp3dmv-woocommerce.php`, `single-product-3d.php` |
-| Part 8 | Elementor Widget | `class-wp3dmv-elementor.php`, `class-widget-3d-viewer.php` |
-| Part 9 | AJAX + Security | `class-wp3dmv-ajax.php` |
-| Part 10 | Testing + Bugfix | ทุกไฟล์ |
+| Part # | งาน | ไฟล์ที่เกี่ยวข้อง | สถานะ |
+|--------|-----|-----------------|-------|
+| Part 1 | Main + Core + Activator | `wp-3d-model-viewer.php`, `class-wp3dmv-core.php`, `class-wp3dmv-activator.php`, `class-wp3dmv-loader.php`, `class-wp3dmv-i18n.php`, `class-wp3dmv-deactivator.php` | ✅ Done (แก้ WC แล้ว v1.0.1) |
+| Part 2 | Admin + Settings | `class-wp3dmv-admin.php`, `class-wp3dmv-settings.php` | ⚠️ ต้องแก้ WC ออก |
+| Part 3 | Admin JS + CSS | `wp3dmv-admin.js`, `wp3dmv-media-upload.js`, `wp3dmv-admin.css` | 🔜 ยังไม่ทำ |
+| Part 4 | Public + Viewer PHP + Template | `class-wp3dmv-public.php`, `class-wp3dmv-viewer.php`, `viewer-template.php` | 🔜 ยังไม่ทำ |
+| Part 5 | JavaScript Viewer (Three.js) | `wp3dmv-viewer.js`, `wp3dmv-controls.js`, `wp3dmv-loader.js` | 🔜 ยังไม่ทำ |
+| Part 6 | CSS + Responsive | `wp3dmv-public.css` | 🔜 ยังไม่ทำ |
+| Part 7 | Elementor Widget | `class-wp3dmv-elementor.php`, `class-widget-3d-viewer.php` | 🔜 ยังไม่ทำ |
+| Part 8 | AJAX + Security | `class-wp3dmv-ajax.php` | 🔜 ยังไม่ทำ |
+| Part 9 | Testing + Bugfix | ทุกไฟล์ | 🔜 ยังไม่ทำ |
 
 ---
 
 ## 10. VERSION TRACKING TABLE
 
-> อัปเดตทุกครั้งที่มีการแก้ไขไฟล์
-
-| File | Current Version | Last Modified | Modified In Chat |
-|------|----------------|---------------|-----------------|
-| `wp-3d-model-viewer.php` | 1.0.0 | 2026-04-06 | Initial |
-| `class-wp3dmv-core.php` | 1.0.0 | 2026-04-06 | Initial |
-| `class-wp3dmv-admin.php` | 1.0.0 | 2026-04-06 | Initial |
-| `class-wp3dmv-settings.php` | 1.0.0 | 2026-04-06 | Initial |
-| `class-wp3dmv-product-meta.php` | 1.0.0 | 2026-04-06 | Initial |
-| `class-wp3dmv-public.php` | 1.0.0 | 2026-04-06 | Initial |
-| `class-wp3dmv-viewer.php` | 1.0.0 | 2026-04-06 | Initial |
-| `wp3dmv-viewer.js` | 1.0.0 | 2026-04-06 | Initial |
-| `wp3dmv-controls.js` | 1.0.0 | 2026-04-06 | Initial |
-| `wp3dmv-loader.js` | 1.0.0 | 2026-04-06 | Initial |
-| `wp3dmv-public.css` | 1.0.0 | 2026-04-06 | Initial |
-| `class-wp3dmv-woocommerce.php` | 1.0.0 | 2026-04-06 | Initial |
-| `class-wp3dmv-elementor.php` | 1.0.0 | 2026-04-06 | Initial |
-| `class-widget-3d-viewer.php` | 1.0.0 | 2026-04-06 | Initial |
-| `class-wp3dmv-ajax.php` | 1.0.0 | 2026-04-06 | Initial |
+| File | Current Version | Last Modified | สถานะ |
+|------|----------------|---------------|-------|
+| `wp-3d-model-viewer.php` | 1.0.1 | 2026-04-12 | ⚠️ ต้องแก้ |
+| `class-wp3dmv-core.php` | 1.0.1 | 2026-04-12 | ⚠️ ต้องแก้ |
+| `class-wp3dmv-activator.php` | 1.0.1 | 2026-04-12 | ⚠️ ต้องแก้ |
+| `class-wp3dmv-loader.php` | 1.0.0 | 2026-04-06 | ✅ ใช้ได้ |
+| `class-wp3dmv-deactivator.php` | 1.0.0 | 2026-04-06 | ✅ ใช้ได้ |
+| `class-wp3dmv-i18n.php` | 1.0.0 | 2026-04-06 | ✅ ใช้ได้ |
+| `class-wp3dmv-admin.php` | 1.0.1 | 2026-04-12 | ⚠️ ต้องแก้ |
+| `class-wp3dmv-settings.php` | 1.0.1 | 2026-04-12 | ⚠️ ต้องแก้ |
+| `class-wp3dmv-viewer.php` | — | — | 🔜 ยังไม่สร้าง |
+| `class-wp3dmv-public.php` | — | — | 🔜 ยังไม่สร้าง |
+| `wp3dmv-viewer.js` | — | — | 🔜 ยังไม่สร้าง |
+| `wp3dmv-controls.js` | — | — | 🔜 ยังไม่สร้าง |
+| `wp3dmv-loader.js` | — | — | 🔜 ยังไม่สร้าง |
+| `wp3dmv-public.css` | — | — | 🔜 ยังไม่สร้าง |
+| `class-wp3dmv-elementor.php` | — | — | 🔜 ยังไม่สร้าง |
+| `class-widget-3d-viewer.php` | — | — | 🔜 ยังไม่สร้าง |
+| `class-wp3dmv-ajax.php` | — | — | 🔜 ยังไม่สร้าง |
+| ~~`class-wp3dmv-product-meta.php`~~ | — | — | 🗑️ ถอดออก |
+| ~~`class-wp3dmv-woocommerce.php`~~ | — | — | 🗑️ ถอดออก |
 
 ---
 
@@ -365,7 +356,7 @@ Admin → WP 3D Model Viewer → Settings
 - [ ] `esc_url()` ทุก URL output
 - [ ] `esc_attr()` ทุก HTML attribute output
 - [ ] `wp_verify_nonce()` ก่อน save ทุกครั้ง
-- [ ] Capability check (`manage_options` / `edit_products`)
+- [ ] Capability check (`manage_options`)
 - [ ] File type validation (`.glb`, `.gltf` เท่านั้น)
 - [ ] File size limit ใน upload
 
@@ -379,9 +370,8 @@ Category: "WP3D"
 
 Controls:
 ├─ Section: Model
-│   ├─ model_source   : SELECT (upload / url / product)
-│   ├─ model_url      : URL input
-│   └─ product_id     : NUMBER (ใช้เมื่อ source=product)
+│   ├─ model_source   : SELECT (upload / url)   ← ลบ "product" option ออกแล้ว
+│   └─ model_url      : URL input
 │
 ├─ Section: Viewer Size
 │   ├─ viewer_height  : SLIDER (200–1000px, default 400)
@@ -403,28 +393,23 @@ Controls:
 
 ## 13. DEVELOPMENT PHASES
 
-### Phase 1 — Core (Chat 1–3)
+### Phase 1 — Core
 - [x] Architecture planning ✅
-- [ ] Plugin bootstrap + activation
-- [ ] Admin settings page
-- [ ] Product metabox (WooCommerce)
+- [x] Plugin bootstrap + activation ✅ (Part 1 Done)
+- [ ] Admin settings page (Part 2 — ต้องแก้ WC ออก)
 
-### Phase 2 — Viewer (Chat 4–6)
-- [ ] PHP render class
+### Phase 2 — Viewer (Part 3–6)
+- [ ] Admin JS + CSS
+- [ ] PHP render class + template
 - [ ] Three.js viewer (JavaScript core)
-- [ ] Mouse/touch orbit controls
-- [ ] Loading bar + error handling
 - [ ] Responsive CSS
 
-### Phase 3 — Integration (Chat 7–8)
-- [ ] WooCommerce product gallery integration
+### Phase 3 — Integration (Part 7)
 - [ ] Elementor widget
 
-### Phase 4 — Polish (Chat 9–10)
-- [ ] AJAX endpoints
-- [ ] Security hardening
-- [ ] Performance optimization
-- [ ] Cross-browser testing
+### Phase 4 — Polish (Part 8–9)
+- [ ] AJAX + Security
+- [ ] Testing + Bugfix
 
 ---
 
@@ -432,12 +417,88 @@ Controls:
 
 | Issue | Decision | Reason |
 |-------|----------|--------|
-| No bundler (webpack/vite) | ✅ ใช้ vanilla JS | Deploy ง่าย บน shared hosting |
+| No bundler | ✅ vanilla JS | Deploy ง่ายบน shared hosting |
 | Three.js version | r158 fixed | ไม่ upgrade กลางโปรเจกต์ |
 | Mobile support | OrbitControls touch events | built-in รองรับแล้ว |
 | Large GLB files | Lazy load + loading bar | UX ดีกว่า block render |
 | Elementor widget reload | Use `elementor/frontend/init` hook | ป้องกัน conflict |
+| WooCommerce | ❌ ถอดออกทั้งหมด | Plugin เป็น standalone widget อิสระ |
 
 ---
 
-*Master Architecture v1.0.0 — สร้างโดย Claude, 2026-04-06*
+## 15. 🔧 PENDING FIXES — Part 1 & Part 2
+
+> ไฟล์ที่ทำเสร็จแล้วแต่ต้องแก้เพราะถอด WooCommerce ออก
+
+### Part 1 — ไฟล์ที่ต้องแก้
+
+**`class-wp3dmv-core.php` (1.0.0 → 1.0.1)**
+```
+ลบใน load_dependencies():
+  - $this->maybe_load(...'admin/class-wp3dmv-product-meta.php')
+  - $this->maybe_load(...'woocommerce/class-wp3dmv-woocommerce.php')
+
+ลบใน define_admin_hooks():
+  - if (class_exists('WP3DMV_Product_Meta')) { ... } ทั้ง block
+
+ลบ method ออกทั้ง method:
+  - define_woocommerce_hooks()
+  - init_elementor() ยังคงไว้
+
+ลบใน __construct():
+  - $this->define_woocommerce_hooks();
+```
+
+**`class-wp3dmv-activator.php` (1.0.0 → 1.0.1)**
+```
+ลบใน $default_settings array:
+  - 'wc_default_position' => 'below_gallery'
+  - 'wc_tab_label'        => 'ดู 3D'
+```
+
+**`wp-3d-model-viewer.php` (1.0.0 → 1.0.1)**
+```
+แก้ version: 1.0.0 → 1.0.1
+ลบ Requires Plugins: woocommerce (ถ้ามี)
+```
+
+### Part 2 — ไฟล์ที่ต้องแก้
+
+**`class-wp3dmv-admin.php` (1.0.0 → 1.0.1)**
+```
+ลบออก (ถ้ามี):
+  - require/load class-wp3dmv-product-meta.php
+  - add_meta_boxes hooks ใดๆ
+```
+
+**`class-wp3dmv-settings.php` (1.0.0 → 1.0.1)**
+```
+ลบออก:
+  - Section [WooCommerce] ทั้ง section
+  - field wc_default_position
+  - field wc_tab_label
+```
+
+**`class-wp3dmv-product-meta.php`**
+```
+🗑️ ลบไฟล์นี้ออกจาก repo ได้เลย
+git rm admin/class-wp3dmv-product-meta.php
+```
+
+---
+
+## 16. RAW GITHUB URL PATTERN
+
+```
+https://raw.githubusercontent.com/USERNAME/wp-3d-model-viewer/main/FILENAME
+
+ตัวอย่าง:
+https://raw.githubusercontent.com/USERNAME/wp-3d-model-viewer/main/WP3D-MASTER-ARCHITECTURE.md
+https://raw.githubusercontent.com/USERNAME/wp-3d-model-viewer/main/CHANGELOG.md
+https://raw.githubusercontent.com/USERNAME/wp-3d-model-viewer/main/includes/class-wp3dmv-core.php
+```
+
+---
+
+*Master Architecture v1.1.0 — อัปเดตโดย Claude, 2026-04-12*  
+*การเปลี่ยนแปลงหลัก: ถอด WooCommerce integration ออกทั้งหมด — plugin เป็น standalone*

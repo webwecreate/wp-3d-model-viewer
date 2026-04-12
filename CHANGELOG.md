@@ -2,9 +2,36 @@
 > ห้ามเขียนทับ — เพิ่มรายการใหม่ด้านบนเสมอ (newest first)
 ---
 
+## [1.1.0] — 2026-04-12 — Architecture Revision (Remove WooCommerce)
+### Changed
+- Master Architecture อัปเดตเป็น v1.1.0
+- Plugin เปลี่ยนเป็น standalone widget — ไม่ขึ้นกับ WooCommerce อีกต่อไป
+- Compatible header: ลบ WooCommerce 8.x ออก เหลือแค่ WordPress 6.x | Elementor 3.x
+
+### Removed
+- `admin/class-wp3dmv-product-meta.php` — WC product metabox (ถอดออก)
+- `woocommerce/class-wp3dmv-woocommerce.php` — WC integration class (ถอดออก)
+- `woocommerce/templates/single-product-3d.php` — WC product template (ถอดออก)
+- WooCommerce hooks ทั้งหมดออกจาก `class-wp3dmv-core.php`
+- `define_woocommerce_hooks()` method ออกจาก `class-wp3dmv-core.php`
+- WC product metabox block ออกจาก `define_admin_hooks()` ใน core
+- `wc_default_position`, `wc_tab_label` ออกจาก default settings ใน activator
+- Section [WooCommerce] ออกจาก settings page schema
+- `product_id` control และ `source=product` option ออกจาก Elementor widget
+- Shortcode `[wp3dmv_viewer id="POST_ID"]` (WC product ref) — เหลือแค่ `url=""` parameter
+- Database schema: ลบ wp_postmeta keys ทั้งหมด (`_wp3dmv_*`)
+
+### Pending (ต้องแก้ไฟล์ที่ทำไปแล้ว)
+- `class-wp3dmv-core.php` v1.0.0 → v1.0.1 (ลบ WC references)
+- `class-wp3dmv-activator.php` v1.0.0 → v1.0.1 (ลบ WC settings)
+- `wp-3d-model-viewer.php` v1.0.0 → v1.0.1 (bump version)
+- `class-wp3dmv-admin.php` v1.0.0 → v1.0.1 (ลบ WC references ถ้ามี)
+- `class-wp3dmv-settings.php` v1.0.0 → v1.0.1 (ลบ WC section)
+
+---
+
 ## [1.0.1] — 2026-04-06 — Part 1
 ### Added
-
 - wp-3d-model-viewer.php — Main plugin file; constants, PHP/WP version checks, boot via wp3dmv()
 - includes/class-wp3dmv-loader.php — Hook loader; collects actions/filters and registers them with WordPress
 - includes/class-wp3dmv-activator.php — Activation handler; writes default options, validates environment
@@ -12,6 +39,7 @@
 - includes/class-wp3dmv-i18n.php — Text domain loader
 - includes/class-wp3dmv-core.php — Singleton bootstrap; loads all modules, wires hooks via Loader
 - uninstall.php — Removes all options and post meta on plugin deletion
+
 ---
 
 ## [1.0.0] — 2026-04-06
