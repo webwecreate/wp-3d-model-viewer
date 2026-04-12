@@ -3,6 +3,27 @@
 
 ---
 
+## [1.1.2] — 2026-04-12 — Part 2: Admin + Settings
+
+### Added
+- `admin/class-wp3dmv-admin.php` v1.0.1
+  - Register admin menu "3D Model Viewer" + submenu "Settings"
+  - Enqueue admin CSS/JS scoped to plugin pages only
+  - wp_localize_script: ajax_url, nonce, i18n
+  - Plugin action link "Settings" on Plugins screen
+  - Resolves Pending item from v1.1.1
+
+- `admin/class-wp3dmv-settings.php` v1.0.1
+  - WordPress Settings API, option key: wp3dmv_settings
+  - Section General: default_bg_color, default_height, show_controls_hint, enable_fullscreen
+  - Section 3D Viewer Defaults: auto_rotate, rotation_speed (slider 0.1–5), enable_zoom, camera_distance
+  - Section Performance: lazy_load, max_texture_size (1024/2048/4096)
+  - Full sanitisation per field type (hex color, float range, int range, whitelist)
+  - get() / get_all() public API for other classes
+  - Resolves Pending item from v1.1.1
+
+---
+
 ## [1.1.1] — 2026-04-12 — Part 1 Hotfix (WC Removal)
 
 ### Changed
