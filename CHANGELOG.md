@@ -3,6 +3,33 @@
 
 ---
 
+## [1.2.0] — 2026-04-14 — Part 3: Admin JS + Media Upload + CSS
+
+### Added
+- `admin/js/wp3dmv-admin.js` v1.0.0 (ใหม่)
+  - `WP3DMV_Admin` object — admin controller หลัก
+  - `initTabs()` — tab navigation พร้อม URL hash restore
+  - `initColorPickers()` — เชื่อม WordPress iris color picker
+  - `initRangeSliders()` — sync ค่า range input กับ label แบบ live
+  - `initMediaUploadButtons()` — delegate ไปยัง `WP3DMV_MediaUpload`
+  - `bindSaveNotice()` — auto-dismiss admin notice หลัง 3 วินาที
+
+- `admin/js/wp3dmv-media-upload.js` v1.0.0 (ใหม่)
+  - เปิด WordPress Media Library popup ด้วย `wp.media`
+  - กรองเฉพาะไฟล์ `.glb` / `.gltf` ด้วย `_isValidModel()`
+  - แสดง preview ชื่อไฟล์พร้อม icon badge (GLB / GLTF)
+  - ปุ่ม Remove เพื่อล้างค่าและ reset UI
+  - Custom events: `wp3dmv:model-selected`, `wp3dmv:model-removed`
+
+- `admin/css/wp3dmv-admin.css` v1.0.0 (ใหม่)
+  - CSS variables ผูกกับ `--wp-admin-theme-color` (รองรับทุก WP color scheme)
+  - Styles สำหรับ Settings page: layout, tab nav, tab panels, form fields
+  - Styles สำหรับ media upload widget: upload/remove buttons, file preview chip, error state
+  - Responsive สำหรับ mobile admin (< 782px)
+
+
+---
+
 ## [1.1.2] — 2026-04-12 — Part 2: Admin + Settings
 
 ### Added

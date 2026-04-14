@@ -312,8 +312,8 @@ Admin → WP 3D Model Viewer → Settings
 | Part # | งาน | ไฟล์ที่เกี่ยวข้อง | สถานะ |
 |--------|-----|-----------------|-------|
 | Part 1 | Main + Core + Activator | `wp-3d-model-viewer.php`, `class-wp3dmv-core.php`, `class-wp3dmv-activator.php`, `class-wp3dmv-loader.php`, `class-wp3dmv-i18n.php`, `class-wp3dmv-deactivator.php` | ✅ Done (แก้ WC แล้ว v1.0.1) |
-| Part 2 | Admin + Settings | `class-wp3dmv-admin.php`, `class-wp3dmv-settings.php` | ⚠️ ต้องแก้ WC ออก |
-| Part 3 | Admin JS + CSS | `wp3dmv-admin.js`, `wp3dmv-media-upload.js`, `wp3dmv-admin.css` | 🔜 ยังไม่ทำ |
+| Part 2 | Admin + Settings | `class-wp3dmv-admin.php`, `class-wp3dmv-settings.php` | ✅ Done (v1.1.2)  |
+| Part 3 | Admin JS + CSS | `wp3dmv-admin.js`, `wp3dmv-media-upload.js`, `wp3dmv-admin.css` | Done|
 | Part 4 | Public + Viewer PHP + Template | `class-wp3dmv-public.php`, `class-wp3dmv-viewer.php`, `viewer-template.php` | 🔜 ยังไม่ทำ |
 | Part 5 | JavaScript Viewer (Three.js) | `wp3dmv-viewer.js`, `wp3dmv-controls.js`, `wp3dmv-loader.js` | 🔜 ยังไม่ทำ |
 | Part 6 | CSS + Responsive | `wp3dmv-public.css` | 🔜 ยังไม่ทำ |
