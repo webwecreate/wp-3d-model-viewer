@@ -1,0 +1,471 @@
+/**
+ * WP 3D Model Viewer — Admin Styles
+ *
+ * @package    WP3DModelViewer
+ * @subpackage Admin/CSS
+ * @version    1.0.0
+ * @since      1.0.0
+ *
+ * Covers:
+ *  1. Settings page layout & tabs
+ *  2. Form field groups
+ *  3. Media upload widget + preview
+ *  4. Range slider UI
+ *  5. Utility / helper classes
+ */
+
+/* ==========================================================================
+   0. WordPress admin color variable aliases
+   (wp-admin uses --wp-admin-theme-color since WP 5.7)
+   ========================================================================== */
+
+:root {
+    --wp3dmv-primary      : var(--wp-admin-theme-color, #2271b1);
+    --wp3dmv-primary-dark : var(--wp-admin-theme-color--darken-20, #135e96);
+    --wp3dmv-border       : #c3c4c7;
+    --wp3dmv-bg-light     : #f6f7f7;
+    --wp3dmv-text         : #1d2327;
+    --wp3dmv-text-muted   : #646970;
+    --wp3dmv-success      : #00a32a;
+    --wp3dmv-error        : #d63638;
+    --wp3dmv-radius       : 4px;
+    --wp3dmv-shadow       : 0 1px 3px rgba(0, 0, 0, .08);
+}
+
+/* ==========================================================================
+   1. Settings page — page wrapper
+   ========================================================================== */
+
+.wp3dmv-settings-wrap {
+    max-width: 860px;
+    margin-top: 20px;
+}
+
+.wp3dmv-settings-wrap h1 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 23px;
+    font-weight: 400;
+    margin-bottom: 20px;
+    color: var(--wp3dmv-text);
+}
+
+.wp3dmv-settings-wrap h1 .wp3dmv-plugin-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: var(--wp3dmv-primary);
+    color: #fff;
+    vertical-align: middle;
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   2. Tab navigation
+   ========================================================================== */
+
+.wp3dmv-tab-nav {
+    display: flex;
+    gap: 0;
+    margin-bottom: -1px;     /* overlap the card border */
+    border-bottom: 1px solid var(--wp3dmv-border);
+}
+
+.wp3dmv-tab-btn {
+    appearance: none;
+    border: 1px solid transparent;
+    border-bottom: none;
+    background: var(--wp3dmv-bg-light);
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--wp3dmv-text-muted);
+    cursor: pointer;
+    border-radius: var(--wp3dmv-radius) var(--wp3dmv-radius) 0 0;
+    margin-right: 4px;
+    transition: color .15s, background .15s, border-color .15s;
+    line-height: 1.5;
+}
+
+.wp3dmv-tab-btn:hover {
+    color: var(--wp3dmv-text);
+    background: #fff;
+}
+
+.wp3dmv-tab-btn.is-active {
+    background: #fff;
+    color: var(--wp3dmv-primary);
+    border-color: var(--wp3dmv-border);
+    position: relative;
+    z-index: 1;
+}
+
+/* Tab panels */
+.wp3dmv-tab-panel {
+    display: none;
+    background: #fff;
+    border: 1px solid var(--wp3dmv-border);
+    border-top: none;
+    padding: 24px 28px;
+    border-radius: 0 var(--wp3dmv-radius) var(--wp3dmv-radius) var(--wp3dmv-radius);
+    box-shadow: var(--wp3dmv-shadow);
+}
+
+.wp3dmv-tab-panel.is-active {
+    display: block;
+}
+
+/* ==========================================================================
+   3. Form field groups
+   ========================================================================== */
+
+.wp3dmv-field-group {
+    margin-bottom: 22px;
+}
+
+.wp3dmv-field-group:last-child {
+    margin-bottom: 0;
+}
+
+.wp3dmv-field-group label,
+.wp3dmv-field-label {
+    display: block;
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: var(--wp3dmv-text);
+}
+
+.wp3dmv-field-group .description,
+.wp3dmv-field-desc {
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--wp3dmv-text-muted);
+    line-height: 1.5;
+}
+
+/* Divider between setting groups */
+.wp3dmv-field-divider {
+    border: none;
+    border-top: 1px solid var(--wp3dmv-border);
+    margin: 20px 0;
+}
+
+/* Two-column field row */
+.wp3dmv-field-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.wp3dmv-field-row .wp3dmv-field-group {
+    flex: 1 1 200px;
+}
+
+/* ==========================================================================
+   4. Standard WP form controls — sizing tweaks
+   ========================================================================== */
+
+.wp3dmv-settings-wrap input[type="text"],
+.wp3dmv-settings-wrap input[type="number"],
+.wp3dmv-settings-wrap input[type="url"],
+.wp3dmv-settings-wrap select,
+.wp3dmv-settings-wrap textarea {
+    border-radius: var(--wp3dmv-radius);
+    border-color: var(--wp3dmv-border);
+    min-width: 0;
+    width: 100%;
+    max-width: 420px;
+    box-sizing: border-box;
+}
+
+.wp3dmv-settings-wrap input[type="number"] {
+    max-width: 100px;
+}
+
+/* ==========================================================================
+   5. Range slider
+   ========================================================================== */
+
+.wp3dmv-range-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 420px;
+}
+
+.wp3dmv-range-wrap input[type="range"] {
+    flex: 1;
+    accent-color: var(--wp3dmv-primary);
+    cursor: pointer;
+    height: 4px;
+}
+
+.wp3dmv-range-value {
+    display: inline-block;
+    min-width: 32px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--wp3dmv-primary);
+    background: #eef2f6;
+    padding: 2px 6px;
+    border-radius: 20px;
+}
+
+/* ==========================================================================
+   6. Media upload widget
+   ========================================================================== */
+
+/**
+ * HTML structure expected:
+ * <div class="wp3dmv-media-wrap" data-field="field_name">
+ *   <input type="hidden" class="wp3dmv-url-field" />
+ *   <input type="hidden" class="wp3dmv-id-field" />        (optional)
+ *   <div class="wp3dmv-upload-controls">
+ *     <button class="button wp3dmv-upload-btn">เลือกไฟล์ 3D Model</button>
+ *     <button class="button wp3dmv-remove-btn">✕ ลบไฟล์</button>
+ *   </div>
+ *   <div class="wp3dmv-file-preview"></div>
+ *   <p class="wp3dmv-upload-error"></p>                    (injected by JS)
+ * </div>
+ */
+
+.wp3dmv-media-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 500px;
+}
+
+/* Buttons row */
+.wp3dmv-upload-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* Upload button */
+.wp3dmv-upload-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--wp3dmv-primary) !important;
+    color: #fff !important;
+    border-color: var(--wp3dmv-primary-dark) !important;
+    border-radius: var(--wp3dmv-radius) !important;
+    padding: 6px 14px !important;
+    font-size: 13px !important;
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+}
+
+.wp3dmv-upload-btn:hover,
+.wp3dmv-upload-btn:focus {
+    background: var(--wp3dmv-primary-dark) !important;
+    border-color: var(--wp3dmv-primary-dark) !important;
+    color: #fff !important;
+    outline: 2px solid var(--wp3dmv-primary);
+    outline-offset: 2px;
+}
+
+.wp3dmv-upload-btn::before {
+    content: '📂';
+    font-size: 14px;
+    line-height: 1;
+}
+
+/* Remove button */
+.wp3dmv-remove-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #fff !important;
+    color: var(--wp3dmv-error) !important;
+    border-color: var(--wp3dmv-error) !important;
+    border-radius: var(--wp3dmv-radius) !important;
+    padding: 6px 12px !important;
+    font-size: 13px !important;
+    cursor: pointer;
+    transition: background .15s, color .15s;
+}
+
+.wp3dmv-remove-btn:hover,
+.wp3dmv-remove-btn:focus {
+    background: var(--wp3dmv-error) !important;
+    color: #fff !important;
+    outline: 2px solid var(--wp3dmv-error);
+    outline-offset: 2px;
+}
+
+/* File preview chip */
+.wp3dmv-file-preview {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--wp3dmv-bg-light);
+    border: 1px solid var(--wp3dmv-border);
+    border-radius: var(--wp3dmv-radius);
+    padding: 8px 12px;
+    font-size: 13px;
+    color: var(--wp3dmv-text);
+    max-width: 500px;
+    word-break: break-all;
+}
+
+.wp3dmv-file-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    height: 26px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+}
+
+.wp3dmv-file-icon--glb {
+    background: #1a1a2e;
+    color: #4cc9f0;
+}
+
+.wp3dmv-file-icon--gltf {
+    background: #16213e;
+    color: #f8961e;
+}
+
+.wp3dmv-file-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+    color: var(--wp3dmv-text-muted);
+}
+
+/* Validation error */
+.wp3dmv-upload-error {
+    margin: 0;
+    padding: 6px 10px;
+    font-size: 12px;
+    color: #fff;
+    background: var(--wp3dmv-error);
+    border-radius: var(--wp3dmv-radius);
+    display: none;          /* shown by JS */
+}
+
+/* ==========================================================================
+   7. Settings submit row
+   ========================================================================== */
+
+.wp3dmv-submit-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 28px;
+    background: var(--wp3dmv-bg-light);
+    border-top: 1px solid var(--wp3dmv-border);
+    margin: 24px -28px -24px;   /* bleed to tab-panel edges */
+    border-radius: 0 0 var(--wp3dmv-radius) var(--wp3dmv-radius);
+}
+
+.wp3dmv-submit-row .button-primary {
+    min-width: 120px;
+}
+
+.wp3dmv-submit-row .wp3dmv-saved-msg {
+    font-size: 13px;
+    color: var(--wp3dmv-success);
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity .3s;
+}
+
+.wp3dmv-submit-row .wp3dmv-saved-msg.is-visible {
+    opacity: 1;
+}
+
+/* ==========================================================================
+   8. Plugin header / about card
+   ========================================================================== */
+
+.wp3dmv-about-card {
+    background: #fff;
+    border: 1px solid var(--wp3dmv-border);
+    border-radius: var(--wp3dmv-radius);
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: var(--wp3dmv-shadow);
+}
+
+.wp3dmv-about-card .wp3dmv-logo {
+    font-size: 36px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.wp3dmv-about-card h2 {
+    margin: 0 0 4px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--wp3dmv-text);
+}
+
+.wp3dmv-about-card p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--wp3dmv-text-muted);
+}
+
+/* ==========================================================================
+   9. Responsive — narrow admin panels
+   ========================================================================== */
+
+@media screen and (max-width: 782px) {
+
+    .wp3dmv-settings-wrap {
+        max-width: 100%;
+    }
+
+    .wp3dmv-tab-panel {
+        padding: 18px 16px;
+    }
+
+    .wp3dmv-tab-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .wp3dmv-submit-row {
+        margin: 20px -16px -18px;
+        padding: 16px;
+        flex-wrap: wrap;
+    }
+
+    .wp3dmv-field-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .wp3dmv-media-wrap,
+    .wp3dmv-file-preview {
+        max-width: 100%;
+    }
+
+    .wp3dmv-settings-wrap input[type="text"],
+    .wp3dmv-settings-wrap input[type="url"],
+    .wp3dmv-settings-wrap select,
+    .wp3dmv-settings-wrap textarea {
+        max-width: 100%;
+    }
+}
