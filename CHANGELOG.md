@@ -3,6 +3,34 @@
 
 ---
 
+## [1.3.0] — 2026-04-15 — Part 4: Public Class + Viewer PHP + Template
+
+### Added
+- `public/class-wp3dmv-public.php` v1.0.0 (new)
+  - `enqueue_styles()` — โหลด wp3dmv-public.css (handle: wp3dmv-public)
+  - `enqueue_scripts()` — โหลด Three.js r158, OrbitControls, wp3dmv-viewer.js
+    (handles: wp3dmv-three → wp3dmv-orbit → wp3dmv-viewer, in-footer)
+  - `wp_localize_script()` ส่ง pluginUrl + settings ไปยัง JS
+  - `register_shortcodes()` — ลงทะเบียน [wp3dmv_viewer]
+  - `shortcode_viewer()` — delegate ไป WP3DMV_Viewer::render()
+
+- `includes/class-wp3dmv-viewer.php` v1.0.0 (new)
+  - `render($args)` static method — merge, sanitize, generate unique ID, include template
+  - `get_global_settings()` — อ่าน wp3dmv_settings จาก wp_options พร้อม fallback
+  - `merge_args()` — per-instance args override global defaults
+  - `sanitize_settings()` — esc_url, absint, sanitize_hex_color, clamp floats
+  - `parse_bool()` — รองรับ "true"/"false" string + boolean
+
+- `public/partials/viewer-template.php` v1.0.0 (new)
+  - HTML: .wp3dmv-container พร้อม data-model-url, data-settings (JSON)
+  - Loading bar (.wp3dmv-loading-bar), loading text, error message (hidden)
+  - Canvas (.wp3dmv-canvas) สำหรับ Three.js
+  - Controls hint (drag/zoom), fullscreen button (conditional)
+  - ทุก output ผ่าน esc_* ครบตาม Security Checklist
+  - ไม่มี WooCommerce references ใดๆ
+
+---
+
 ## [1.2.0] — 2026-04-14 — Part 3: Admin JS + Media Upload + CSS
 
 ### Added
