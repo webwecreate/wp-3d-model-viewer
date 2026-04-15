@@ -10,7 +10,7 @@
  * @author     WP 3D Model Viewer
  * @license    GPL-2.0+
  * @link       https://github.com/webwecreate/wp-3d-model-viewer
- * @since      1.0.0
+ * @since      1.0.1
  * @version    1.0.0
  */
 
@@ -347,7 +347,7 @@ class WP3DMV_Widget_3D_Viewer extends \Elementor\Widget_Base {
             'height'         => ! empty( $settings['viewer_height']['size'] )
                                     ? absint( $settings['viewer_height']['size'] )
                                     : 400,
-            'bg'             => ! empty( $settings['bg_color'] )
+            'bg_color'             => ! empty( $settings['bg_color'] )
                                     ? sanitize_hex_color( $settings['bg_color'] )
                                     : '#f5f5f5',
             'autorotate'     => ( 'yes' === $settings['auto_rotate'] ) ? 'true' : 'false',
@@ -360,7 +360,7 @@ class WP3DMV_Widget_3D_Viewer extends \Elementor\Widget_Base {
 
         // ── Delegate to shared render class ───────────────────────────────────
         if ( class_exists( 'WP3DMV_Viewer' ) ) {
-            WP3DMV_Viewer::render( $args );
+            echo WP3DMV_Viewer::render( $args );
         } else {
             // Fallback: render an empty container while plugin loads.
             printf(

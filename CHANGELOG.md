@@ -3,6 +3,17 @@
 
 ---
 
+## [1.7.6] — 2026-04-16 — Part 9: Bugfix #7+#8 — Elementor widget renders empty
+
+### Fixed
+- `elementor/widgets/class-widget-3d-viewer.php` v1.0.0 → v1.0.1
+  - render(): เพิ่ม echo หน้า WP3DMV_Viewer::render($args)
+    เดิมไม่ echo → Elementor ไม่แสดงผล → เห็นแค่ empty container
+  - render(): แก้ key 'bg' → 'bg_color' ให้ตรงกับ
+    WP3DMV_Viewer::merge_args() ที่อ่าน $args['bg_color']
+
+---
+
 ## [1.7.5] — 2026-04-16 — Part 9: Bugfix #4 + #6 — Settings not saving / not applying
 
 ### Fixed
