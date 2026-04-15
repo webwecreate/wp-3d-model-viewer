@@ -7,7 +7,7 @@
  *
  * @package    WP3DModelViewer
  * @subpackage WP3DModelViewer/includes
- * @version    1.0.1
+ * @version    1.0.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -87,16 +87,19 @@ class WP3DMV_Core {
             return;
         }
 
-        $plugin_admin = new WP3DMV_Admin( $this->version );
+        // Settings must be instantiated first — Admin constructor requires it.
+        $plugin_settings = class_exists( 'WP3DMV_Settings' ) ? new WP3DMV_Settings() : null;
 
-        $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-        $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-        $this->loader->add_action( 'admin_menu',            $plugin_admin, 'add_plugin_admin_menu' );
-
-        if ( class_exists( 'WP3DMV_Settings' ) ) {
-            $plugin_settings = new WP3DMV_Settings();
-            $this->loader->add_action( 'admin_init', $plugin_settings, 'register_settings' );
+        if ( ! $plugin_settings ) {
+            return;
         }
+
+        $plugin_admin = new WP3DMV_Admin( $this->version, $plugin_settings );
+
+        $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin,    'enqueue_styles' );
+        $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin,    'enqueue_scripts' );
+        $this->loader->add_action( 'admin_menu',            $plugin_admin,    'register_admin_menu' );
+        $this->loader->add_action( 'admin_init',            $plugin_settings, 'register_settings' );
     }
 
     // ─── Public Hooks ─────────────────────────────────────────────────────────

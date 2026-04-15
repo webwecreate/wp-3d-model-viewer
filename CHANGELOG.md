@@ -3,6 +3,18 @@
 
 ---
 
+## [1.7.4] — 2026-04-16 — Part 9: Bugfix #3 — Fatal error on plugin activation
+
+### Fixed
+- `includes/class-wp3dmv-core.php` v1.0.1 → v1.0.2
+  - define_admin_hooks(): สร้าง WP3DMV_Settings ก่อน แล้วส่งเป็น
+    argument ที่ 2 เข้า WP3DMV_Admin() constructor
+    (เดิมส่งแค่ $this->version → ArgumentCountError fatal error)
+  - แก้ชื่อ method hook จาก 'add_plugin_admin_menu' → 'register_admin_menu'
+    ให้ตรงกับชื่อจริงใน class-wp3dmv-admin.php
+
+---
+
 ## [1.7.3] — 2026-04-16 — Part 9: Bugfix #2 — data-settings JSON key mismatch
 
 ### Fixed
