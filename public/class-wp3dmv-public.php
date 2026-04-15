@@ -6,7 +6,7 @@
  *
  * @package    WP3DModelViewer
  * @subpackage WP3DModelViewer/public
- * @version    1.0.0
+ * @version    1.0.1
  * @since      1.0.0
  */
 
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Manages all public-facing (frontend) concerns:
  * - Enqueue CSS
- * - Enqueue Three.js, OrbitControls, and viewer JS
+ * - Enqueue Three.js, OrbitControls, GLTFLoader, and viewer JS
  * - Register the [wp3dmv_viewer] shortcode
  */
 class WP3DMV_Public {
@@ -62,10 +62,13 @@ class WP3DMV_Public {
 	/**
 	 * Enqueue public JavaScript files.
 	 *
-	 * Load order:
-	 *   1. three.min.js       (no deps)
-	 *   2. OrbitControls.js   (depends on three)
-	 *   3. wp3dmv-viewer.js   (depends on three + orbit)
+	 * Load order (must be preserved — each script depends on the one above):
+	 *   1. three.min.js        (no deps)
+	 *   2. OrbitControls.js    (depends on three)
+	 *   3. GLTFLoader.js       (depends on three)
+	 *   4. wp3dmv-controls.js  (depends on three + orbit)
+	 *   5. wp3dmv-loader.js    (depends on three + gltf)
+	 *   6. wp3dmv-viewer.js    (depends on all of the above)
 	 *
 	 * Hook: wp_enqueue_scripts
 	 */
@@ -89,11 +92,38 @@ class WP3DMV_Public {
 			true
 		);
 
-		// 3. Main viewer controller (depends on Three.js + OrbitControls).
+		// 3. GLTFLoader addon (depends on Three.js) — required for .glb / .gltf loading.
+		wp_enqueue_script(
+			'wp3dmv-gltf',
+			WP3DMV_PLUGIN_URL . 'assets/vendor/three/GLTFLoader.js',
+			[ 'wp3dmv-three' ],
+			'158',
+			true
+		);
+
+		// 4. Orbit controls wrapper (depends on Three.js + OrbitControls).
+		wp_enqueue_script(
+			'wp3dmv-controls',
+			WP3DMV_PLUGIN_URL . 'public/js/wp3dmv-controls.js',
+			[ 'wp3dmv-three', 'wp3dmv-orbit' ],
+			$this->version,
+			true
+		);
+
+		// 5. Model loader (depends on Three.js + GLTFLoader).
+		wp_enqueue_script(
+			'wp3dmv-loader',
+			WP3DMV_PLUGIN_URL . 'public/js/wp3dmv-loader.js',
+			[ 'wp3dmv-three', 'wp3dmv-gltf' ],
+			$this->version,
+			true
+		);
+
+		// 6. Main viewer controller (depends on all of the above).
 		wp_enqueue_script(
 			'wp3dmv-viewer',
 			WP3DMV_PLUGIN_URL . 'public/js/wp3dmv-viewer.js',
-			[ 'wp3dmv-three', 'wp3dmv-orbit' ],
+			[ 'wp3dmv-three', 'wp3dmv-orbit', 'wp3dmv-gltf', 'wp3dmv-controls', 'wp3dmv-loader' ],
 			$this->version,
 			true
 		);

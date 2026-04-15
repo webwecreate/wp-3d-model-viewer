@@ -59,7 +59,7 @@
 
 | Layer | Technology | Reason |
 |-------|-----------|--------|
-| 3D Renderer | **Three.js r158** | Industry standard, lightweight |
+| 3D Renderer | **Three.js r147** | Industry standard, lightweight |
 | Orbit Control | `OrbitControls.js` (Three.js addon) | Mouse/touch drag หมุน 360° |
 | WP Integration | WordPress Plugin API | Standard hooks/filters |
 | Elementor | Elementor Widget API | Drag & drop widget ใช้ได้ทุกหน้า |
@@ -336,7 +336,7 @@ Admin → WP 3D Model Viewer → Settings
 | `class-wp3dmv-admin.php` | 1.0.1 | 2026-04-12 | ✅ Done  |
 | `class-wp3dmv-settings.php` | 1.0.1 | 2026-04-12 | ✅ Done  |
 | `class-wp3dmv-viewer.php` | 1.0.0 | 2026-04-14 | ✅ Done |
-| `class-wp3dmv-public.php` | 1.0.0 | 2026-04-15 | ✅ Done |
+| `class-wp3dmv-public.php` | 1.0.2 | 2026-04-15 | ✅ Done |
 | `wp3dmv-viewer.js` | 1.0.0  |  2026-04-15 | ✅ Done  |
 | `wp3dmv-controls.js` | 1.0.0  |  2026-04-15 | ✅ Done  |
 | `wp3dmv-loader.js` | 1.0.0  |  2026-04-15 | ✅ Done  |
@@ -423,7 +423,7 @@ Controls:
 | Issue | Decision | Reason |
 |-------|----------|--------|
 | No bundler | ✅ vanilla JS | Deploy ง่ายบน shared hosting |
-| Three.js version | r158 fixed | ไม่ upgrade กลางโปรเจกต์ |
+| Three.js version | r147 fixed (r148+ ลบ legacy script builds ออก) | ไม่ upgrade กลางโปรเจกต์ |
 | Mobile support | OrbitControls touch events | built-in รองรับแล้ว |
 | Large GLB files | Lazy load + loading bar | UX ดีกว่า block render |
 | Elementor widget reload | Use `elementor/frontend/init` hook | ป้องกัน conflict |

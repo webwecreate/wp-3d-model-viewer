@@ -3,6 +3,48 @@
 
 ---
 
+## [1.7.2] — 2026-04-15 — Part 9: Bugfix #1b — Downgrade Three.js vendor to r147
+
+### Changed
+- `public/class-wp3dmv-public.php` v1.0.1 → v1.0.2
+  - เปลี่ยน version string ของ vendor scripts จาก '158' → '147'
+    ครอบคลุม: wp3dmv-three, wp3dmv-orbit, wp3dmv-gltf ทั้ง 3 handles
+
+### Added (asset files — replaced)
+- `assets/vendor/three/three.min.js` — เปลี่ยนเป็น r147
+- `assets/vendor/three/OrbitControls.js` — เปลี่ยนเป็น r147
+- `assets/vendor/three/GLTFLoader.js` — เพิ่มใหม่ r147
+  - Source: https://unpkg.com/three@0.147.0/examples/js/loaders/GLTFLoader.js
+
+### Reason
+- Three.js ลบ examples/js (legacy builds) ออกตั้งแต่ r148
+- r158 ไม่มี GLTFLoader.js แบบ script tag อีกต่อไป
+- r147 เป็น version สุดท้ายที่รองรับ THREE.GLTFLoader global ผ่าน script tag
+
+---
+
+## [1.7.1] — 2026-04-15 — Part 9: Bugfix #1 — Missing Script Enqueues
+
+### Fixed
+- `public/class-wp3dmv-public.php` v1.0.0 → v1.0.1
+  - เพิ่ม `GLTFLoader.js` (handle: `wp3dmv-gltf`, dep: wp3dmv-three, ver: 158)
+    ก่อนหน้านี้ขาด → `THREE.GLTFLoader` undefined → โหลด .glb/.gltf ไม่ได้เลย
+  - เพิ่ม `wp3dmv-controls.js` (handle: `wp3dmv-controls`, dep: wp3dmv-three + wp3dmv-orbit)
+    ก่อนหน้านี้ขาด → `WP3DMV_Controls` undefined → OrbitControls ไม่ทำงาน
+  - เพิ่ม `wp3dmv-loader.js` (handle: `wp3dmv-loader`, dep: wp3dmv-three + wp3dmv-gltf)
+    ก่อนหน้านี้ขาด → `WP3DMV_Loader` undefined → โหลด model ไม่ได้
+  - อัปเดต deps ของ `wp3dmv-viewer` ให้ครบ:
+    `[wp3dmv-three, wp3dmv-orbit, wp3dmv-gltf, wp3dmv-controls, wp3dmv-loader]`
+    (เดิมมีแค่ three + orbit)
+  - อัปเดต doc comment load order ให้ตรงกับ enqueue จริง (6 ขั้นตอน)
+
+### Added (asset file)
+- `assets/vendor/three/GLTFLoader.js` (ไฟล์ใหม่ — ต้องดาวน์โหลดจาก Three.js r158)
+  - Source: https://raw.githubusercontent.com/mrdoob/three.js/r158/examples/js/loaders/GLTFLoader.js
+  - ต้องวางที่ `assets/vendor/three/GLTFLoader.js` ก่อน deploy
+
+---
+
 ## [1.7.0] — 2026-04-15 — Part 8: AJAX + Security
 
 ### Added
