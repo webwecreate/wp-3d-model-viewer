@@ -3,6 +3,21 @@
 
 ---
 
+## [1.7.5] — 2026-04-16 — Part 9: Bugfix #4 + #6 — Settings not saving / not applying
+
+### Fixed
+- `admin/class-wp3dmv-settings.php` v1.0.1 → v1.0.2
+  - render_page(): settings_errors(self::OPTION_KEY) → settings_errors()
+    เดิม filter ผิด key → success notice ไม่แสดงหลัง save
+
+- `includes/class-wp3dmv-viewer.php` v1.0.0 → v1.0.1
+  - get_global_settings(): แก้ key 'default_auto_rotate' → 'auto_rotate'
+    และ 'default_rotation_speed' → 'rotation_speed'
+  - merge_args(): แก้การอ่าน $global_settings ให้ตรง key เดียวกัน
+    เดิม key ไม่ตรงกับที่ Settings class save → ค่าที่ user ตั้งไม่มีผลเลย
+
+---
+
 ## [1.7.4] — 2026-04-16 — Part 9: Bugfix #3 — Fatal error on plugin activation
 
 ### Fixed

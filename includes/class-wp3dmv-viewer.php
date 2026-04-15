@@ -4,7 +4,7 @@
  *
  * @package    WP3DModelViewer
  * @subpackage WP3DModelViewer/includes
- * @version    1.0.0
+ * @version    1.0.1
  * @since      1.0.0
  */
 
@@ -101,8 +101,8 @@ class WP3DMV_Viewer {
 		$defaults = [
 			'default_bg_color'      => '#f5f5f5',
 			'default_height'        => 400,
-			'default_auto_rotate'   => true,
-			'default_rotation_speed'=> 1.0,
+			'auto_rotate'   => true,
+			'rotation_speed'=> 1.0,
 			'enable_zoom'           => true,
 			'enable_fullscreen'     => true,
 			'show_controls_hint'    => true,
@@ -141,7 +141,7 @@ class WP3DMV_Viewer {
 		if ( isset( $args['auto_rotate'] ) && '' !== $args['auto_rotate'] ) {
 			$auto_rotate = self::parse_bool( $args['auto_rotate'] );
 		} else {
-			$auto_rotate = (bool) $global_settings['default_auto_rotate'];
+			$auto_rotate = (bool) $global_settings['auto_rotate'];
 		}
 
 		return [
@@ -149,7 +149,7 @@ class WP3DMV_Viewer {
 			'height'          => $height,
 			'bg_color'        => $bg_color,
 			'auto_rotate'     => $auto_rotate,
-			'rotation_speed'  => (float) $global_settings['default_rotation_speed'],
+			'rotation_speed'  => (float) $global_settings['rotation_speed'],
 			'enable_zoom'     => (bool)  $global_settings['enable_zoom'],
 			'enable_fullscreen' => (bool) $global_settings['enable_fullscreen'],
 			'show_controls_hint'=> (bool) $global_settings['show_controls_hint'],
