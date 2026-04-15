@@ -274,8 +274,8 @@ controls.dampingFactor = 0.05;
 controls.enableZoom = true;
 controls.minDistance = 1;
 controls.maxDistance = 10;
-controls.autoRotate = settings.autoRotate;
-controls.autoRotateSpeed = settings.rotationSpeed;
+controls.autoRotate = settings.auto_rotate;
+controls.autoRotateSpeed = settings.rotation_speed;
 controls.enablePan = false;
 ```
 
@@ -318,7 +318,7 @@ Admin → WP 3D Model Viewer → Settings
 | Part 5 | JavaScript Viewer (Three.js) | `wp3dmv-viewer.js`, `wp3dmv-controls.js`, `wp3dmv-loader.js` | ✅ Done |
 | Part 6 | CSS + Responsive | `wp3dmv-public.css` | ✅ Done |
 | Part 7 | Elementor Widget | `class-wp3dmv-elementor.php`, `class-widget-3d-viewer.php` | ✅ Done  |
-| Part 8 | AJAX + Security | `class-wp3dmv-ajax.php` | 🔜 ยังไม่ทำ |
+| Part 8 | AJAX + Security | `class-wp3dmv-ajax.php` | ✅ Done  |
 | Part 9 | Testing + Bugfix | ทุกไฟล์ | 🔜 ยังไม่ทำ |
 
 ---
@@ -348,7 +348,7 @@ Admin → WP 3D Model Viewer → Settings
 | `admin/js/wp3dmv-admin.js` | 1.0.0  | 2026-04-14 | ✅ Done |
 | `admin/js/wp3dmv-media-upload.js` | 1.0.0  | 2026-04-14| ✅ Done |
 | `admin/css/wp3dmv-admin.css` | 1.0.0  | 2026-04-14 | ✅ Done |
-| `public/partials/viewer-template.php` | 1.0.0  | 2026-04-15 | ✅ Done |
+| `public/partials/viewer-template.php` | 1.0.1  | 2026-04-16 | ✅ Done |
 | ~~`class-wp3dmv-product-meta.php`~~ | — | — | 🗑️ ถอดออก |
 | ~~`class-wp3dmv-woocommerce.php`~~ | — | — | 🗑️ ถอดออก |
 

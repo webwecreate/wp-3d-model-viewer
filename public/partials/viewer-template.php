@@ -9,7 +9,7 @@
  *
  * @package    WP3DModelViewer
  * @subpackage WP3DModelViewer/public/partials
- * @version    1.0.0
+ * @version    1.0.1
  * @since      1.0.0
  */
 
@@ -26,12 +26,14 @@ $container_style = sprintf(
 );
 
 // Encode settings for data attribute (used by wp3dmv-viewer.js).
+// Keys must match snake_case used by wp3dmv-viewer.js, wp3dmv-controls.js, wp3dmv-loader.js.
 $data_settings = esc_attr(
 	wp_json_encode( [
-		'autoRotate'     => (bool) $settings['auto_rotate'],
-		'rotationSpeed'  => (float) $settings['rotation_speed'],
-		'enableZoom'     => (bool) $settings['enable_zoom'],
-		'cameraDistance' => (float) $settings['camera_distance'],
+		'bg_color'                => (string) $settings['bg_color'],
+		'auto_rotate'             => (bool) $settings['auto_rotate'],
+		'rotation_speed'          => (float) $settings['rotation_speed'],
+		'enable_zoom'             => (bool) $settings['enable_zoom'],
+		'initial_camera_distance' => (float) $settings['camera_distance'],
 	] )
 );
 

@@ -3,6 +3,20 @@
 
 ---
 
+## [1.7.3] — 2026-04-16 — Part 9: Bugfix #2 — data-settings JSON key mismatch
+
+### Fixed
+- `public/partials/viewer-template.php` v1.0.0 → v1.0.1
+  - แก้ JSON keys ใน $data_settings จาก camelCase → snake_case
+    ให้ตรงกับที่ wp3dmv-viewer.js / wp3dmv-controls.js / wp3dmv-loader.js อ่าน
+  - autoRotate      → auto_rotate
+  - rotationSpeed   → rotation_speed
+  - enableZoom      → enable_zoom
+  - cameraDistance  → initial_camera_distance  (ชื่อต่างกันด้วย)
+  - เพิ่ม bg_color (string) — ก่อนหน้านี้ขาด → scene.background ใช้ default เสมอ
+
+---
+
 ## [1.7.2] — 2026-04-15 — Part 9: Bugfix #1b — Downgrade Three.js vendor to r147
 
 ### Changed
