@@ -3,6 +3,30 @@
 
 ---
 
+## [1.4.0] — 2026-04-15 — Part 5: JavaScript Viewer (Three.js Core)
+
+### Added
+- `public/js/wp3dmv-viewer.js` v1.0.0
+  - IIFE wrapper, exposes `window.WP3DMV_Viewer` namespace
+  - `init(container)` — อ่าน data-model-url และ data-settings, สร้าง instance object
+  - `createScene()` — THREE.Scene + scene.background จาก settings.bg_color
+  - `createCamera()` — PerspectiveCamera FOV 45°, position Z = initial_camera_distance
+  - `createRenderer()` — WebGLRenderer บน .wp3dmv-canvas, antialias: true, setPixelRatio, outputColorSpace = SRGBColorSpace
+  - `createLights()` — AmbientLight 0.6 + DirectionalLight 0.8 ที่ (5,5,5)
+  - `animate()` — requestAnimationFrame loop, controls.update(), renderer.render()
+  - `onWindowResize()` — อัปเดต camera.aspect + renderer.setSize พร้อม zero-dimension guard
+  - `initAll()` — วน querySelectorAll('.wp3dmv-container') แล้ว init() ทุก instance
+  - Auto-initialize บน DOMContentLoaded, รองรับหลาย instance ในหน้าเดียวกัน
+
+- `public/js/wp3dmv-controls.js` v1.0.0
+  - IIFE wrapper, exposes `window.WP3DMV_Controls` namespace
+  - `createControls(camera, canvas, settings)` — สร้าง THREE.OrbitControls
+  - ตั้งค่าตาม §7.3: enableDamping, dampingFactor 0.05, minDistance 1, maxDistance 10
+  - autoRotate / autoRotateSpeed รับจาก settings, enablePan: false
+  - รองรับ mobile touch ผ
+
+---
+
 ## [1.3.0] — 2026-04-15 — Part 4: Public Class + Viewer PHP + Template
 
 ### Added

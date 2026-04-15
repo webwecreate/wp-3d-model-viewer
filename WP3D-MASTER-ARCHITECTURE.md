@@ -313,9 +313,9 @@ Admin → WP 3D Model Viewer → Settings
 |--------|-----|-----------------|-------|
 | Part 1 | Main + Core + Activator | `wp-3d-model-viewer.php`, `class-wp3dmv-core.php`, `class-wp3dmv-activator.php`, `class-wp3dmv-loader.php`, `class-wp3dmv-i18n.php`, `class-wp3dmv-deactivator.php` | ✅ Done (แก้ WC แล้ว v1.0.1) |
 | Part 2 | Admin + Settings | `class-wp3dmv-admin.php`, `class-wp3dmv-settings.php` | ✅ Done (v1.1.2)  |
-| Part 3 | Admin JS + CSS | `wp3dmv-admin.js`, `wp3dmv-media-upload.js`, `wp3dmv-admin.css` | Done|
-| Part 4 | Public + Viewer PHP + Template | `class-wp3dmv-public.php`, `class-wp3dmv-viewer.php`, `viewer-template.php` | 🔜 ยังไม่ทำ |
-| Part 5 | JavaScript Viewer (Three.js) | `wp3dmv-viewer.js`, `wp3dmv-controls.js`, `wp3dmv-loader.js` | 🔜 ยังไม่ทำ |
+| Part 3 | Admin JS + CSS | `wp3dmv-admin.js`, `wp3dmv-media-upload.js`, `wp3dmv-admin.css` | ✅ Done|
+| Part 4 | Public + Viewer PHP + Template | `class-wp3dmv-public.php`, `class-wp3dmv-viewer.php`, `viewer-template.php` | ✅ Done |
+| Part 5 | JavaScript Viewer (Three.js) | `wp3dmv-viewer.js`, `wp3dmv-controls.js`, `wp3dmv-loader.js` | ✅ Done |
 | Part 6 | CSS + Responsive | `wp3dmv-public.css` | 🔜 ยังไม่ทำ |
 | Part 7 | Elementor Widget | `class-wp3dmv-elementor.php`, `class-widget-3d-viewer.php` | 🔜 ยังไม่ทำ |
 | Part 8 | AJAX + Security | `class-wp3dmv-ajax.php` | 🔜 ยังไม่ทำ |
@@ -327,23 +327,28 @@ Admin → WP 3D Model Viewer → Settings
 
 | File | Current Version | Last Modified | สถานะ |
 |------|----------------|---------------|-------|
-| `wp-3d-model-viewer.php` | 1.0.1 | 2026-04-12 | ⚠️ ต้องแก้ |
-| `class-wp3dmv-core.php` | 1.0.1 | 2026-04-12 | ⚠️ ต้องแก้ |
-| `class-wp3dmv-activator.php` | 1.0.1 | 2026-04-12 | ⚠️ ต้องแก้ |
-| `class-wp3dmv-loader.php` | 1.0.0 | 2026-04-06 | ✅ ใช้ได้ |
-| `class-wp3dmv-deactivator.php` | 1.0.0 | 2026-04-06 | ✅ ใช้ได้ |
-| `class-wp3dmv-i18n.php` | 1.0.0 | 2026-04-06 | ✅ ใช้ได้ |
-| `class-wp3dmv-admin.php` | 1.0.1 | 2026-04-12 | ⚠️ ต้องแก้ |
-| `class-wp3dmv-settings.php` | 1.0.1 | 2026-04-12 | ⚠️ ต้องแก้ |
-| `class-wp3dmv-viewer.php` | — | — | 🔜 ยังไม่สร้าง |
-| `class-wp3dmv-public.php` | — | — | 🔜 ยังไม่สร้าง |
-| `wp3dmv-viewer.js` | — | — | 🔜 ยังไม่สร้าง |
-| `wp3dmv-controls.js` | — | — | 🔜 ยังไม่สร้าง |
-| `wp3dmv-loader.js` | — | — | 🔜 ยังไม่สร้าง |
+| `wp-3d-model-viewer.php` | 1.0.1 | 2026-04-12 | ✅ Done  |
+| `class-wp3dmv-core.php` | 1.0.1 | 2026-04-12 | ✅ Done  |
+| `class-wp3dmv-activator.php` | 1.0.1 | 2026-04-12 | ✅ Done  |
+| `class-wp3dmv-loader.php` | 1.0.0 | 2026-04-06 | ✅ Done |
+| `class-wp3dmv-deactivator.php` | 1.0.0 | 2026-04-06 | ✅ Done |
+| `class-wp3dmv-i18n.php` | 1.0.0 | 2026-04-06 | ✅ Done |
+| `class-wp3dmv-admin.php` | 1.0.1 | 2026-04-12 | ✅ Done  |
+| `class-wp3dmv-settings.php` | 1.0.1 | 2026-04-12 | ✅ Done  |
+| `class-wp3dmv-viewer.php` | 1.0.0 | 2026-04-14 | ✅ Done |
+| `class-wp3dmv-public.php` | 1.0.0 | 2026-04-15 | ✅ Done |
+| `wp3dmv-viewer.js` | 1.0.0  |  2026-04-15 | ✅ Done  |
+| `wp3dmv-controls.js` | 1.0.0  |  2026-04-15 | ✅ Done  |
+| `wp3dmv-loader.js` | 1.0.0  |  2026-04-15 | ✅ Done  |
 | `wp3dmv-public.css` | — | — | 🔜 ยังไม่สร้าง |
 | `class-wp3dmv-elementor.php` | — | — | 🔜 ยังไม่สร้าง |
 | `class-widget-3d-viewer.php` | — | — | 🔜 ยังไม่สร้าง |
 | `class-wp3dmv-ajax.php` | — | — | 🔜 ยังไม่สร้าง |
+| `uninstall.php` | 1.0.0  | 2026-04-06 | ✅ Done |
+| `admin/js/wp3dmv-admin.js` | 1.0.0  | 2026-04-14 | ✅ Done |
+| `admin/js/wp3dmv-media-upload.js` | 1.0.0  | 2026-04-14| ✅ Done |
+| `admin/css/wp3dmv-admin.css` | 1.0.0  | 2026-04-14 | ✅ Done |
+| `public/partials/viewer-template.php` | 1.0.0  | 2026-04-15 | ✅ Done |
 | ~~`class-wp3dmv-product-meta.php`~~ | — | — | 🗑️ ถอดออก |
 | ~~`class-wp3dmv-woocommerce.php`~~ | — | — | 🗑️ ถอดออก |
 
