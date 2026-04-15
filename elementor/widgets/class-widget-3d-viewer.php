@@ -415,7 +415,6 @@ class WP3DMV_Widget_3D_Viewer extends \Elementor\Widget_Base {
              style="height: {{ height }}px; background-color: {{ bgColor }};">
 
             <# if ( ! modelUrl ) { #>
-                {{! No model set — show editor placeholder }}
                 <div style="display:flex; align-items:center; justify-content:center;
                             height:100%; color:#aaa; flex-direction:column; gap:10px;
                             font-family:sans-serif;">
@@ -425,7 +424,6 @@ class WP3DMV_Widget_3D_Viewer extends \Elementor\Widget_Base {
                     </span>
                 </div>
             <# } else { #>
-                {{! Model URL present — render viewer skeleton }}
                 <div class="wp3dmv-loading">
                     <div class="wp3dmv-loading-bar"><span style="width:0%"></span></div>
                     <p class="wp3dmv-loading-text">

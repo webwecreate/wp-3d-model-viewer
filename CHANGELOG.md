@@ -3,6 +3,16 @@
 
 ---
 
+## [1.7.7] — 2026-04-16 — Part 9: Bugfix #9 — Elementor widget panel ไม่ขึ้น
+
+### Fixed
+- `elementor/widgets/class-widget-3d-viewer.php` v1.0.1 → v1.0.2
+  - content_template(): ลบ {{! }} comment syntax ออก 2 บรรทัด
+    ไม่ใช่ syntax ของ Underscore.js/Elementor → JS error
+    → editor render ไม่ได้ → widget panel ไม่แสดง → structure เห็น Empty
+
+---
+
 ## [1.7.6] — 2026-04-16 — Part 9: Bugfix #7+#8 — Elementor widget renders empty
 
 ### Fixed
