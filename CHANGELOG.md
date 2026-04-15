@@ -1,6 +1,27 @@
 # CHANGELOG — WP 3D Model Viewer Plugin
 > ห้ามเขียนทับ — เพิ่มรายการใหม่ด้านบนเสมอ (newest first)
 
+
+---
+
+## [1.7.8] — 2026-04-16 — Part 9: Bugfix #10–#12
+
+### Fixed
+- `public/js/wp3dmv-viewer.js` v1.0.0 → v1.0.1
+  - createRenderer(): เปลี่ยน outputColorSpace (r152+) → outputEncoding = THREE.sRGBEncoding (r147)
+    model ดูสว่างและสีถูกต้อง
+  - init(): เพิ่ม fullscreen button handler (requestFullscreen / exitFullscreen)
+    พร้อม is-fullscreen class toggle
+
+- `includes/class-wp3dmv-viewer.php` v1.0.1 → v1.0.2
+  - merge_args(): เพิ่ม per-instance override สำหรับ rotation_speed, enable_zoom,
+    show_controls_hint — เดิมดึงจาก global เสมอ widget/shortcode override ไม่ได้
+
+- `elementor/widgets/class-widget-3d-viewer.php` v1.0.2 → v1.0.3
+  - render(): แก้ key 'autorotate' → 'auto_rotate'
+  - render(): แก้ key 'show_hint' → 'show_controls_hint'
+    ให้ตรงกับที่ merge_args() รับ
+
 ---
 
 ## [1.7.7] — 2026-04-16 — Part 9: Bugfix #9 — Elementor widget panel ไม่ขึ้น

@@ -4,7 +4,7 @@
  *
  * @package    WP3DModelViewer
  * @subpackage WP3DModelViewer/includes
- * @version    1.0.1
+ * @version    1.0.2
  * @since      1.0.0
  */
 
@@ -149,10 +149,16 @@ class WP3DMV_Viewer {
 			'height'          => $height,
 			'bg_color'        => $bg_color,
 			'auto_rotate'     => $auto_rotate,
-			'rotation_speed'  => (float) $global_settings['rotation_speed'],
-			'enable_zoom'     => (bool)  $global_settings['enable_zoom'],
+			'rotation_speed'  => ( isset( $args['rotation_speed'] ) && '' !== $args['rotation_speed'] )
+				? (float) $args['rotation_speed']
+				: (float) $global_settings['rotation_speed'],
+			'enable_zoom'     => ( isset( $args['enable_zoom'] ) && '' !== $args['enable_zoom'] )
+				? self::parse_bool( $args['enable_zoom'] )
+				: (bool) $global_settings['enable_zoom'],
 			'enable_fullscreen' => (bool) $global_settings['enable_fullscreen'],
-			'show_controls_hint'=> (bool) $global_settings['show_controls_hint'],
+			'show_controls_hint'=> ( isset( $args['show_controls_hint'] ) && '' !== $args['show_controls_hint'] )
+				? self::parse_bool( $args['show_controls_hint'] )
+				: (bool) $global_settings['show_controls_hint'],
 			'loading_text'    => $global_settings['loading_text'],
 			'camera_distance' => (float) $global_settings['camera_distance'],
 		];

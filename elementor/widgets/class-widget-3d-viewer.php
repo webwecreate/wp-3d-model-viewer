@@ -11,7 +11,7 @@
  * @license    GPL-2.0+
  * @link       https://github.com/webwecreate/wp-3d-model-viewer
  * @since      1.0.1
- * @version    1.0.0
+ * @version    1.0.3
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -350,12 +350,12 @@ class WP3DMV_Widget_3D_Viewer extends \Elementor\Widget_Base {
             'bg_color'             => ! empty( $settings['bg_color'] )
                                     ? sanitize_hex_color( $settings['bg_color'] )
                                     : '#f5f5f5',
-            'autorotate'     => ( 'yes' === $settings['auto_rotate'] ) ? 'true' : 'false',
-            'rotation_speed' => ! empty( $settings['rotation_speed']['size'] )
-                                    ? floatval( $settings['rotation_speed']['size'] )
-                                    : 1.0,
-            'enable_zoom'    => ( 'yes' === $settings['enable_zoom'] ) ? 'true' : 'false',
-            'show_hint'      => ( 'yes' === $settings['show_hint'] ) ? 'true' : 'false',
+            'auto_rotate'        => ( 'yes' === $settings['auto_rotate'] ) ? 'true' : 'false',
+            'rotation_speed'     => ! empty( $settings['rotation_speed']['size'] )
+                                        ? floatval( $settings['rotation_speed']['size'] )
+                                        : 1.0,
+            'enable_zoom'        => ( 'yes' === $settings['enable_zoom'] ) ? 'true' : 'false',
+            'show_controls_hint' => ( 'yes' === $settings['show_hint'] ) ? 'true' : 'false',
         );
 
         // ── Delegate to shared render class ───────────────────────────────────

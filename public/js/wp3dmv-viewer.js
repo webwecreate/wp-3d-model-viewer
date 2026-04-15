@@ -6,7 +6,7 @@
  *
  * @package    WP3DModelViewer
  * @subpackage WP3DModelViewer/public/js
- * @version    1.0.0
+ * @version    1.0.1
  * @since      1.0.0
  *
  * Dependencies (must be enqueued before this file):
@@ -111,6 +111,25 @@
             // Start render loop
             this.animate(instance);
 
+            // Fullscreen button
+            var fsBtn = container.querySelector('.wp3dmv-fullscreen-btn');
+            if (fsBtn) {
+                fsBtn.addEventListener('click', function () {
+                    if (!document.fullscreenElement) {
+                        container.requestFullscreen && container.requestFullscreen();
+                    } else {
+                        document.exitFullscreen && document.exitFullscreen();
+                    }
+                });
+                document.addEventListener('fullscreenchange', function () {
+                    if (document.fullscreenElement === container) {
+                        container.classList.add('is-fullscreen');
+                    } else {
+                        container.classList.remove('is-fullscreen');
+                    }
+                });
+            }
+
             // Responsive resize (closure keeps reference to this instance only)
             var self = this;
             window.addEventListener('resize', function () {
@@ -191,10 +210,9 @@
             renderer.setPixelRatio(window.devicePixelRatio || 1);
             renderer.setSize(width, height);
 
-            // Three.js r158: use outputColorSpace (outputEncoding is deprecated)
-            if (THREE.SRGBColorSpace !== undefined) {
-                renderer.outputColorSpace = THREE.SRGBColorSpace;
-            }
+            // Three.js r147: use outputEncoding = sRGBEncoding for correct colours.
+            // (outputColorSpace was introduced in r152 — not available in r147)
+            renderer.outputEncoding = THREE.sRGBEncoding;
 
             return renderer;
         },
