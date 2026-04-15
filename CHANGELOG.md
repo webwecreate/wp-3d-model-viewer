@@ -1,6 +1,37 @@
 # CHANGELOG — WP 3D Model Viewer Plugin
 > ห้ามเขียนทับ — เพิ่มรายการใหม่ด้านบนเสมอ (newest first)
 
+
+---
+
+## [1.6.0] — 2026-04-15 — Part 7: Elementor Widget
+
+### Added
+- `elementor/class-wp3dmv-elementor.php` v1.0.0 (ใหม่)
+  - `add_category($elements_manager)` — เพิ่ม category "WP3D" (slug: wp3dmv) ใน Elementor panel
+  - `register_widgets($widgets_manager)` — require_once widget file แล้ว register WP3DMV_Widget_3D_Viewer
+  - hooks: elementor/elements/categories_registered, elementor/widgets/register
+
+- `elementor/widgets/class-widget-3d-viewer.php` v1.0.0 (ใหม่)
+  - extends \Elementor\Widget_Base, guards ด้วย class_exists('Elementor\Widget_Base')
+  - get_name() → 'wp3dmv-viewer', get_title() → '3D Model Viewer'
+  - get_icon() → 'eicon-product-images', get_categories() → ['wp3dmv']
+  - Content tab — Section Model: model_source (SELECT: upload/url),
+    model_url (URL, condition: source=url), model_upload (MEDIA, condition: source=upload)
+  - Content tab — Section Viewer Size: viewer_height (SLIDER 200–1000px default 400),
+    viewer_width (SELECT: full/custom)
+  - Content tab — Section Controls: auto_rotate (SWITCHER default yes),
+    rotation_speed (SLIDER 0.1–5.0 default 1.0, condition: auto_rotate=yes),
+    enable_zoom (SWITCHER default yes), show_hint (SWITCHER default yes)
+  - Style tab — Section Style: bg_color (COLOR default #f5f5f5),
+    border_radius (DIMENSIONS responsive, selector: .wp3dmv-container),
+    box_shadow (GROUP_CONTROL_BOX_SHADOW, selector: .wp3dmv-container)
+  - render() — get_settings_for_display(), resolve model URL, delegate WP3DMV_Viewer::render($args)
+    ทำงานได้ทั้ง editor (is_edit_mode check) และ frontend
+  - content_template() — Backbone.js template: placeholder เมื่อไม่มี URL,
+    render skeleton (loading bar + canvas + hint) เมื่อมี URL
+  - ไม่มี WooCommerce references ใดๆ
+
 ---
 
 ## [1.5.0] — 2026-04-15 — Part 6: Frontend CSS + Responsive + Mobile
