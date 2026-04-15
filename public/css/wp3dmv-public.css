@@ -1,0 +1,461 @@
+/**
+ * WP 3D Model Viewer — Public Frontend Styles
+ *
+ * @package    WP3DModelViewer
+ * @subpackage WP3DModelViewer/public/css
+ * @version    1.0.0
+ * @since      1.0.0
+ *
+ * Table of Contents
+ * -----------------
+ * 1.  CSS Variables (Custom Properties)
+ * 2.  Container  (.wp3dmv-container)
+ * 3.  Canvas     (.wp3dmv-canvas)
+ * 4.  Loading Overlay (.wp3dmv-loading)
+ *     4a. Loading Bar   (.wp3dmv-loading-bar)
+ *     4b. Loading Text  (.wp3dmv-loading-text)
+ * 5.  Controls Hint (.wp3dmv-controls-hint)
+ * 6.  Fullscreen Button (.wp3dmv-fullscreen-btn)
+ * 7.  Error Message (.wp3dmv-error)
+ * 8.  Utility States (.hidden, drag cursor)
+ * 9.  Responsive — Mobile (max-width: 767px)
+ * 10. Touch Device Overrides
+ * 11. Elementor Context
+ */
+
+/* ==========================================================================
+   1. CSS Variables (Custom Properties)
+   — override these in your theme to customise colours & shape
+   ========================================================================== */
+
+:root {
+  /* Colours */
+  --wp3dmv-bg-color:              #f5f5f5;
+  --wp3dmv-loading-bg:            rgba(0, 0, 0, 0.75);
+  --wp3dmv-loading-bar-track:     rgba(255, 255, 255, 0.20);
+  --wp3dmv-loading-bar-fill:      #ffffff;
+  --wp3dmv-loading-text-color:    #ffffff;
+  --wp3dmv-hint-bg:               rgba(0, 0, 0, 0.55);
+  --wp3dmv-hint-color:            #ffffff;
+  --wp3dmv-btn-bg:                rgba(0, 0, 0, 0.45);
+  --wp3dmv-btn-bg-hover:          rgba(0, 0, 0, 0.70);
+  --wp3dmv-btn-color:             #ffffff;
+  --wp3dmv-error-bg:              rgba(0, 0, 0, 0.75);
+  --wp3dmv-error-color:           #ff6b6b;
+  --wp3dmv-error-icon-color:      #ff6b6b;
+
+  /* Shape */
+  --wp3dmv-border-radius:         0px;
+  --wp3dmv-box-shadow:            none;
+
+  /* Typography */
+  --wp3dmv-font-size-hint:        0.75rem;    /* 12px */
+  --wp3dmv-font-size-loading:     0.875rem;   /* 14px */
+  --wp3dmv-font-size-error:       0.875rem;
+
+  /* Loading bar */
+  --wp3dmv-bar-height:            4px;
+  --wp3dmv-bar-radius:            2px;
+  --wp3dmv-bar-width:             180px;
+
+  /* Animation */
+  --wp3dmv-hint-fade-delay:       2.5s;
+  --wp3dmv-hint-fade-duration:    0.8s;
+  --wp3dmv-transition-speed:      0.2s;
+
+  /* Z-index layers */
+  --wp3dmv-z-canvas:              1;
+  --wp3dmv-z-loading:             10;
+  --wp3dmv-z-hint:                20;
+  --wp3dmv-z-btn:                 20;
+  --wp3dmv-z-error:               30;
+}
+
+
+/* ==========================================================================
+   2. Container  (.wp3dmv-container)
+   ========================================================================== */
+
+.wp3dmv-container {
+  position:      relative;
+  width:         100%;
+  overflow:      hidden;
+  display:       block;
+
+  /* height is injected as inline style by PHP (viewer-template.php) */
+  /* e.g.  style="height: 400px; background-color: #f5f5f5;" */
+
+  background-color: var(--wp3dmv-bg-color);
+  border-radius:    var(--wp3dmv-border-radius);
+  box-shadow:       var(--wp3dmv-box-shadow);
+
+  /* Clip child elements that overflow (e.g. hints near edges) */
+  -webkit-mask-image: -webkit-radial-gradient(white, black); /* Safari fix for border-radius clipping */
+}
+
+/* Reset any aggressive theme resets that could break layout */
+.wp3dmv-container *,
+.wp3dmv-container *::before,
+.wp3dmv-container *::after {
+  box-sizing: border-box;
+}
+
+
+/* ==========================================================================
+   3. Canvas  (.wp3dmv-canvas)
+   ========================================================================== */
+
+.wp3dmv-canvas {
+  display:    block;          /* removes inline-block gap */
+  width:      100% !important;
+  height:     100% !important;
+  position:   relative;
+  z-index:    var(--wp3dmv-z-canvas);
+
+  /* Default grab cursor — JS switches to grabbing on mousedown */
+  cursor: grab;
+  cursor: -webkit-grab;
+
+  /* Prevent browser touch actions from fighting OrbitControls */
+  touch-action: none;
+
+  /* Prevent text selection while dragging */
+  -webkit-user-select: none;
+  -moz-user-select:    none;
+  user-select:         none;
+}
+
+/* Grabbing state — added by JS on pointerdown */
+.wp3dmv-container.is-dragging .wp3dmv-canvas {
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+}
+
+
+/* ==========================================================================
+   4. Loading Overlay  (.wp3dmv-loading)
+   ========================================================================== */
+
+.wp3dmv-loading {
+  position:        absolute;
+  inset:           0;           /* top/right/bottom/left: 0 */
+  z-index:         var(--wp3dmv-z-loading);
+
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  justify-content: center;
+  gap:             0.75rem;
+
+  background-color: var(--wp3dmv-loading-bg);
+  transition:       opacity var(--wp3dmv-transition-speed) ease,
+                    visibility var(--wp3dmv-transition-speed) ease;
+}
+
+/* Hidden state — add class via JS when model finishes loading */
+.wp3dmv-loading.hidden {
+  opacity:    0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+
+/* 4a. Loading Bar  -------------------------------------------------------- */
+
+.wp3dmv-loading-bar {
+  width:            var(--wp3dmv-bar-width);
+  height:           var(--wp3dmv-bar-height);
+  border-radius:    var(--wp3dmv-bar-radius);
+  background-color: var(--wp3dmv-loading-bar-track);
+  overflow:         hidden;
+}
+
+/* Inner <span> driven by JS: style="width: 0%" → style="width: 100%" */
+.wp3dmv-loading-bar span {
+  display:          block;
+  height:           100%;
+  width:            0%;
+  border-radius:    var(--wp3dmv-bar-radius);
+  background-color: var(--wp3dmv-loading-bar-fill);
+  transition:       width 0.15s ease-out;
+}
+
+
+/* 4b. Loading Text  ------------------------------------------------------- */
+
+.wp3dmv-loading-text {
+  margin:      0;
+  padding:     0;
+  font-size:   var(--wp3dmv-font-size-loading);
+  font-family: inherit;
+  color:       var(--wp3dmv-loading-text-color);
+  line-height: 1.4;
+  text-align:  center;
+}
+
+
+/* ==========================================================================
+   5. Controls Hint  (.wp3dmv-controls-hint)
+   ========================================================================== */
+
+.wp3dmv-controls-hint {
+  position:        absolute;
+  bottom:          0.75rem;
+  left:            50%;
+  transform:       translateX(-50%);
+  z-index:         var(--wp3dmv-z-hint);
+
+  display:         flex;
+  gap:             0.75rem;
+  align-items:     center;
+
+  padding:         0.35rem 0.85rem;
+  border-radius:   2rem;
+  background-color: var(--wp3dmv-hint-bg);
+
+  font-size:       var(--wp3dmv-font-size-hint);
+  color:           var(--wp3dmv-hint-color);
+  white-space:     nowrap;
+  pointer-events:  none;   /* don't block canvas events */
+
+  /* Auto-fade after --wp3dmv-hint-fade-delay */
+  animation: wp3dmv-hint-fade var(--wp3dmv-hint-fade-duration) ease forwards;
+  animation-delay: var(--wp3dmv-hint-fade-delay);
+}
+
+/* Hint spans (emoji + label pairs) */
+.wp3dmv-controls-hint span {
+  display:     inline-flex;
+  align-items: center;
+  gap:         0.25rem;
+}
+
+/* Hidden state (also applied by JS to suppress hint permanently) */
+.wp3dmv-controls-hint.hidden {
+  display: none;
+}
+
+/* Fade-out keyframe */
+@keyframes wp3dmv-hint-fade {
+  from { opacity: 1; }
+  to   { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+
+
+/* ==========================================================================
+   6. Fullscreen Button  (.wp3dmv-fullscreen-btn)
+   ========================================================================== */
+
+.wp3dmv-fullscreen-btn {
+  position:        absolute;
+  top:             0.6rem;
+  right:           0.6rem;
+  z-index:         var(--wp3dmv-z-btn);
+
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+
+  width:           2rem;
+  height:          2rem;
+  padding:         0;
+  border:          none;
+  border-radius:   0.375rem;
+  outline:         none;
+
+  background-color: var(--wp3dmv-btn-bg);
+  color:           var(--wp3dmv-btn-color);
+  cursor:          pointer;
+
+  font-size:       1rem;
+  line-height:     1;
+  transition:      background-color var(--wp3dmv-transition-speed) ease,
+                   opacity          var(--wp3dmv-transition-speed) ease;
+
+  /* Slightly transparent until hover */
+  opacity: 0.75;
+}
+
+.wp3dmv-fullscreen-btn:hover,
+.wp3dmv-fullscreen-btn:focus-visible {
+  background-color: var(--wp3dmv-btn-bg-hover);
+  opacity:          1;
+}
+
+/* SVG icon inside the button */
+.wp3dmv-fullscreen-btn svg {
+  width:        1rem;
+  height:       1rem;
+  fill:         none;
+  stroke:       currentColor;
+  stroke-width: 2;
+  pointer-events: none;
+}
+
+/* Collapsed/expanded icon swap — JS toggles .is-fullscreen on container */
+.wp3dmv-fullscreen-btn .wp3dmv-icon-expand   { display: block; }
+.wp3dmv-fullscreen-btn .wp3dmv-icon-collapse { display: none;  }
+
+.wp3dmv-container.is-fullscreen .wp3dmv-fullscreen-btn .wp3dmv-icon-expand   { display: none;  }
+.wp3dmv-container.is-fullscreen .wp3dmv-fullscreen-btn .wp3dmv-icon-collapse { display: block; }
+
+/* Fullscreen container state */
+.wp3dmv-container.is-fullscreen {
+  position: fixed !important;
+  inset:    0 !important;
+  width:    100vw !important;
+  height:   100vh !important;
+  z-index:  99999;
+  border-radius: 0 !important;
+}
+
+
+/* ==========================================================================
+   7. Error Message  (.wp3dmv-error)
+   ========================================================================== */
+
+.wp3dmv-error {
+  display:         none;        /* hidden by default */
+  position:        absolute;
+  inset:           0;
+  z-index:         var(--wp3dmv-z-error);
+
+  flex-direction:  column;
+  align-items:     center;
+  justify-content: center;
+  gap:             0.6rem;
+  padding:         1rem;
+
+  background-color: var(--wp3dmv-error-bg);
+  color:           var(--wp3dmv-error-color);
+  font-size:       var(--wp3dmv-font-size-error);
+  text-align:      center;
+}
+
+/* Visible state — set by JS on load failure */
+.wp3dmv-error.visible {
+  display: flex;
+}
+
+/* Error icon (optional inline SVG or emoji from PHP template) */
+.wp3dmv-error__icon {
+  font-size:   2rem;
+  line-height: 1;
+  color:       var(--wp3dmv-error-icon-color);
+}
+
+.wp3dmv-error__message {
+  margin:  0;
+  padding: 0;
+}
+
+
+/* ==========================================================================
+   8. Utility States
+   ========================================================================== */
+
+/* Generic .hidden utility used on multiple elements */
+.wp3dmv-container .hidden {
+  display: none !important;
+}
+
+
+/* ==========================================================================
+   9. Responsive — Mobile (max-width: 767px)
+   ========================================================================== */
+
+@media (max-width: 767px) {
+
+  /* Shrink controls hint for narrow screens */
+  .wp3dmv-controls-hint {
+    font-size:  0.6875rem;   /* 11px */
+    gap:        0.5rem;
+    padding:    0.3rem 0.65rem;
+    bottom:     0.5rem;
+  }
+
+  /* Stack hint items vertically if very narrow */
+  @media (max-width: 360px) {
+    .wp3dmv-controls-hint {
+      flex-direction: column;
+      gap:            0.25rem;
+    }
+  }
+
+  /* Slightly larger tap target for fullscreen button on mobile */
+  .wp3dmv-fullscreen-btn {
+    width:  2.25rem;
+    height: 2.25rem;
+    top:    0.5rem;
+    right:  0.5rem;
+    /* Always visible on mobile — no hover state */
+    opacity: 0.85;
+  }
+
+  /* Wider loading bar on small screens */
+  .wp3dmv-loading-bar {
+    width: calc(100% - 3rem);
+    max-width: var(--wp3dmv-bar-width);
+  }
+}
+
+
+/* ==========================================================================
+   10. Touch Device Overrides
+   — detected via pointer: coarse (finger, stylus) or hover: none
+   ========================================================================== */
+
+@media (pointer: coarse) {
+
+  /* No grab cursor on touch — looks wrong on mobile */
+  .wp3dmv-canvas {
+    cursor: default;
+  }
+
+  .wp3dmv-container.is-dragging .wp3dmv-canvas {
+    cursor: default;
+  }
+
+  /* Hint: shorter fade delay on touch so it doesn't linger */
+  .wp3dmv-controls-hint {
+    --wp3dmv-hint-fade-delay: 1.8s;
+  }
+}
+
+@media (hover: none) {
+
+  /* Fullscreen button always opaque — no hover to trigger opacity */
+  .wp3dmv-fullscreen-btn {
+    opacity: 0.80;
+  }
+}
+
+
+/* ==========================================================================
+   11. Elementor Context
+   — ensure widget renders correctly inside Elementor columns
+   ========================================================================== */
+
+/* Elementor wraps the widget in .elementor-widget-wp3dmv-viewer */
+.elementor-widget-wp3dmv-viewer .wp3dmv-container {
+  /* Let the container fill the Elementor column width */
+  width:      100%;
+  max-width:  100%;
+
+  /* Respect height set by Elementor widget control (inline style from PHP) */
+  /* No fixed height override here — height comes from viewer-template.php */
+}
+
+/* Inside Elementor columns, prevent unwanted vertical overflow */
+.elementor-widget-wp3dmv-viewer .elementor-widget-container {
+  overflow: hidden;
+  line-height: 0;   /* removes phantom gap below canvas */
+}
+
+/* Elementor editor preview — keep pointer events so editor overlays work */
+.elementor-editor-active .wp3dmv-canvas {
+  pointer-events: none;
+}
+
+
+/* End of wp3dmv-public.css — v1.0.0 */
