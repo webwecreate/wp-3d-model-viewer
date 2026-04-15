@@ -6,7 +6,7 @@
  *
  * @package    WP3DModelViewer
  * @subpackage WP3DModelViewer/public
- * @version    1.0.1
+ * @version    1.0.2
  * @since      1.0.0
  */
 
@@ -79,7 +79,7 @@ class WP3DMV_Public {
 			'wp3dmv-three',
 			WP3DMV_PLUGIN_URL . 'assets/vendor/three/three.min.js',
 			[],
-			'158',
+			'147',
 			true
 		);
 
@@ -88,7 +88,7 @@ class WP3DMV_Public {
 			'wp3dmv-orbit',
 			WP3DMV_PLUGIN_URL . 'assets/vendor/three/OrbitControls.js',
 			[ 'wp3dmv-three' ],
-			'158',
+			'147',
 			true
 		);
 
@@ -97,7 +97,7 @@ class WP3DMV_Public {
 			'wp3dmv-gltf',
 			WP3DMV_PLUGIN_URL . 'assets/vendor/three/GLTFLoader.js',
 			[ 'wp3dmv-three' ],
-			'158',
+			'147',
 			true
 		);
 
