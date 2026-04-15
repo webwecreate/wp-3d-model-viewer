@@ -495,7 +495,7 @@ class WP3DMV_Settings {
 			<h1><?php esc_html_e( 'WP 3D Model Viewer — Settings', 'wp-3d-model-viewer' ); ?></h1>
 
 			<?php //settings_errors( self::OPTION_KEY ); ?>
-			<?php settings_errors(); ?>// ไม่ใส่ argument = แสดงทุก notice
+			<?php settings_errors(); ?>
 
 			<form method="post" action="options.php">
 				<?php
