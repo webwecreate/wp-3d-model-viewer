@@ -3,6 +3,38 @@
 
 ---
 
+## [1.5.0] — 2026-04-15 — Part 6: Frontend CSS + Responsive + Mobile
+
+### Added
+- `public/css/wp3dmv-public.css` v1.0.0 (ใหม่)
+  - CSS Variables (:root) — 20+ custom properties สำหรับสี, ขนาด, animation
+    ให้ theme override ได้โดยไม่แก้ไฟล์ plugin (bg, loading, hint, btn, error, border-radius, box-shadow)
+  - `.wp3dmv-container` — position: relative, width: 100%, overflow: hidden
+    รับ height + bg-color จาก inline style ที่ PHP inject, รองรับ border-radius + box-shadow ผ่าน CSS vars
+    มี Safari fix (-webkit-mask-image) สำหรับ border-radius clipping
+  - `.wp3dmv-canvas` — width/height 100%, display: block, touch-action: none,
+    cursor: grab / grabbing (via .is-dragging บน container)
+  - `.wp3dmv-loading` — absolute overlay ครอบ container, flex centered,
+    transition opacity+visibility, ซ่อนด้วย .hidden
+  - `.wp3dmv-loading-bar` + inner `span` — progress bar แบบ track+fill,
+    inner span รับ style="width: X%" จาก JS, transition 0.15s ease-out
+  - `.wp3dmv-loading-text` — styled loading message
+  - `.wp3dmv-controls-hint` — absolute bottom-center, pill shape,
+    auto-fade animation หลัง 2.5s, ซ่อนด้วย .hidden
+  - `.wp3dmv-fullscreen-btn` — absolute top-right, icon swap ด้วย
+    .wp3dmv-icon-expand / .wp3dmv-icon-collapse,
+    fullscreen state ผ่าน .is-fullscreen บน container (position: fixed)
+  - `.wp3dmv-error` — hidden โดย default (display: none),
+    แสดงด้วย .visible (display: flex), centered ใน container
+  - Responsive (max-width: 767px) — hint text เล็กลง, fullscreen btn tap target ใหญ่ขึ้น
+  - Touch device (@media pointer: coarse) — cursor: default แทน grab,
+    hint fade delay สั้นลงเป็น 1.8s
+  - Elementor context — .elementor-widget-wp3dmv-viewer รองรับ column layout,
+    line-height: 0 ป้องกัน phantom gap, editor preview ปิด pointer-events canvas
+  - ไม่มี WooCommerce class ใดๆ, ไม่พึ่ง framework ใดๆ (vanilla CSS)
+
+---
+
 ## [1.4.0] — 2026-04-15 — Part 5: JavaScript Viewer (Three.js Core)
 
 ### Added

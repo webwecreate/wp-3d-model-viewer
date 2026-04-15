@@ -316,7 +316,7 @@ Admin → WP 3D Model Viewer → Settings
 | Part 3 | Admin JS + CSS | `wp3dmv-admin.js`, `wp3dmv-media-upload.js`, `wp3dmv-admin.css` | ✅ Done|
 | Part 4 | Public + Viewer PHP + Template | `class-wp3dmv-public.php`, `class-wp3dmv-viewer.php`, `viewer-template.php` | ✅ Done |
 | Part 5 | JavaScript Viewer (Three.js) | `wp3dmv-viewer.js`, `wp3dmv-controls.js`, `wp3dmv-loader.js` | ✅ Done |
-| Part 6 | CSS + Responsive | `wp3dmv-public.css` | 🔜 ยังไม่ทำ |
+| Part 6 | CSS + Responsive | `wp3dmv-public.css` | ✅ Done |
 | Part 7 | Elementor Widget | `class-wp3dmv-elementor.php`, `class-widget-3d-viewer.php` | 🔜 ยังไม่ทำ |
 | Part 8 | AJAX + Security | `class-wp3dmv-ajax.php` | 🔜 ยังไม่ทำ |
 | Part 9 | Testing + Bugfix | ทุกไฟล์ | 🔜 ยังไม่ทำ |
@@ -340,7 +340,7 @@ Admin → WP 3D Model Viewer → Settings
 | `wp3dmv-viewer.js` | 1.0.0  |  2026-04-15 | ✅ Done  |
 | `wp3dmv-controls.js` | 1.0.0  |  2026-04-15 | ✅ Done  |
 | `wp3dmv-loader.js` | 1.0.0  |  2026-04-15 | ✅ Done  |
-| `wp3dmv-public.css` | — | — | 🔜 ยังไม่สร้าง |
+| `wp3dmv-public.css` | 1.0.0 | 2026-04-15 | ✅ Done |
 | `class-wp3dmv-elementor.php` | — | — | 🔜 ยังไม่สร้าง |
 | `class-widget-3d-viewer.php` | — | — | 🔜 ยังไม่สร้าง |
 | `class-wp3dmv-ajax.php` | — | — | 🔜 ยังไม่สร้าง |
