@@ -1,6 +1,28 @@
 # CHANGELOG — WP 3D Model Viewer Plugin
 > ห้ามเขียนทับ — เพิ่มรายการใหม่ด้านบนเสมอ (newest first)
 
+---
+
+## [1.7.0] — 2026-04-15 — Part 8: AJAX + Security
+
+### Added
+- `includes/class-wp3dmv-ajax.php` v1.0.0 (ใหม่)
+  - Class `WP3DMV_AJAX` — จัดการ AJAX request ทั้งหมดของ plugin
+  - `register_hooks()` — ลงทะเบียน `wp_ajax_wp3dmv_get_model` และ
+    `wp_ajax_nopriv_wp3dmv_get_model` รองรับทั้ง logged-in และ guest
+  - `get_model()` — handler หลัก: รับ attachment_id หรือ url จาก $_POST,
+    ตรวจ nonce ด้วย `wp_verify_nonce()` (action: wp3dmv_nonce),
+    sanitize ด้วย `absint()` / `sanitize_text_field()` / `wp_unslash()`,
+    resolve URL จาก `wp_get_attachment_url()` ถ้ามี attachment_id,
+    validate extension whitelist (.glb, .gltf) ผ่าน `is_valid_model_url()`,
+    return ด้วย `esc_url_raw()` ก่อนส่ง JSON
+  - `is_valid_model_url($url)` — private helper: ตรวจ extension ผ่าน
+    `wp_parse_url()` + `pathinfo()` กัน query-string trick, whitelist จาก
+    static property `$allowed_extensions`
+  - `send_success($data)` — private wrapper: `wp_send_json_success()` + `die()`
+  - `send_error($message, $code)` — private wrapper: `wp_send_json_error()` + `die()`
+  - ไม่มี WooCommerce references ใดๆ
+  - Security: nonce, sanitize, validate, esc_url_raw, explicit die() ทุก path
 
 ---
 

@@ -343,7 +343,7 @@ Admin → WP 3D Model Viewer → Settings
 | `wp3dmv-public.css` | 1.0.0 | 2026-04-15 | ✅ Done |
 | `class-wp3dmv-elementor.php` | 1.0.0 | 2026-04-15 | ✅ Done|
 | `class-widget-3d-viewer.php` | 1.0.0 | 2026-04-15 | ✅ Done|
-| `class-wp3dmv-ajax.php` | — | — | 🔜 ยังไม่สร้าง |
+| `class-wp3dmv-ajax.php` | 1.0.0 | 2026-04-15 | ✅ Done|
 | `uninstall.php` | 1.0.0  | 2026-04-06 | ✅ Done |
 | `admin/js/wp3dmv-admin.js` | 1.0.0  | 2026-04-14 | ✅ Done |
 | `admin/js/wp3dmv-media-upload.js` | 1.0.0  | 2026-04-14| ✅ Done |
