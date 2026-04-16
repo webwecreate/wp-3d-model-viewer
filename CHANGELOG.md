@@ -1,6 +1,16 @@
 # CHANGELOG — WP 3D Model Viewer Plugin
 > ห้ามเขียนทับ — เพิ่มรายการใหม่ด้านบนเสมอ (newest first)
 
+---
+
+## [1.7.9] — 2026-04-16 — Part 9: Bugfix #13 — Model squished after exit fullscreen
+
+### Fixed
+- `public/js/wp3dmv-viewer.js` v1.0.1 → v1.0.2
+  - fullscreenchange handler: เพิ่ม setTimeout(onWindowResize, 50)
+    หลัง exit fullscreen ทั้ง enter และ exit
+    เดิมไม่ resize renderer → canvas ยังเป็น fullscreen size
+    → model ดูเตี้ยผิดสัดส่วนหลังกลับมา
 
 ---
 

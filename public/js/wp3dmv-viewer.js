@@ -6,7 +6,7 @@
  *
  * @package    WP3DModelViewer
  * @subpackage WP3DModelViewer/public/js
- * @version    1.0.1
+ * @version    1.0.2
  * @since      1.0.0
  *
  * Dependencies (must be enqueued before this file):
@@ -121,17 +121,23 @@
                         document.exitFullscreen && document.exitFullscreen();
                     }
                 });
+
+                var self = this;
                 document.addEventListener('fullscreenchange', function () {
                     if (document.fullscreenElement === container) {
                         container.classList.add('is-fullscreen');
                     } else {
                         container.classList.remove('is-fullscreen');
                     }
+                    // Always resize renderer after fullscreen toggle
+                    // Use setTimeout to wait for browser to finish resizing container
+                    setTimeout(function () {
+                        self.onWindowResize(instance);
+                    }, 50);
                 });
             }
 
             // Responsive resize (closure keeps reference to this instance only)
-            var self = this;
             window.addEventListener('resize', function () {
                 self.onWindowResize(instance);
             });
