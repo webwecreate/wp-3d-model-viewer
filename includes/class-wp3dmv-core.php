@@ -7,7 +7,7 @@
  *
  * @package    WP3DModelViewer
  * @subpackage WP3DModelViewer/includes
- * @version    1.0.2
+ * @version    1.0.3
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -114,6 +114,10 @@ class WP3DMV_Core {
         $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
         $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
         $this->loader->add_action( 'init',               $plugin_public, 'register_shortcodes' );
+
+        // Allow .glb / .gltf file uploads via WordPress Media Library.
+        $this->loader->add_filter( 'upload_mimes',               $plugin_public, 'allow_3d_upload_mimes' );
+        $this->loader->add_filter( 'wp_check_filetype_and_ext',  $plugin_public, 'fix_3d_filetype_check', 10, 4 );
 
         if ( class_exists( 'WP3DMV_AJAX' ) ) {
             $plugin_ajax = new WP3DMV_AJAX();

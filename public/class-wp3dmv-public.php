@@ -6,7 +6,7 @@
  *
  * @package    WP3DModelViewer
  * @subpackage WP3DModelViewer/public
- * @version    1.0.2
+ * @version    1.0.3
  * @since      1.0.0
  */
 
@@ -151,6 +151,56 @@ class WP3DMV_Public {
 	 */
 	public function register_shortcodes(): void {
 		add_shortcode( 'wp3dmv_viewer', [ $this, 'shortcode_viewer' ] );
+	}
+
+	// -------------------------------------------------------------------------
+	// MIME Type Support — allow .glb / .gltf uploads
+	// -------------------------------------------------------------------------
+
+	/**
+	 * Add .glb and .gltf to WordPress allowed upload MIME types.
+	 *
+	 * Without this, WordPress blocks these files on upload with
+	 * "This file cannot be processed by the web server."
+	 *
+	 * Hook: upload_mimes
+	 *
+	 * @param array $mimes Existing allowed MIME types.
+	 * @return array Modified list with GLB/GLTF added.
+	 */
+	public function allow_3d_upload_mimes( array $mimes ): array {
+		$mimes['glb']  = 'model/gltf-binary';
+		$mimes['gltf'] = 'model/gltf+json';
+		return $mimes;
+	}
+
+	/**
+	 * Fix MIME type check for .glb / .gltf files.
+	 *
+	 * WordPress uses finfo/mime_content_type which may return
+	 * 'application/octet-stream' for .glb — this override ensures
+	 * the correct MIME type is used so the upload is not rejected.
+	 *
+	 * Hook: wp_check_filetype_and_ext
+	 *
+	 * @param array  $checked File data array.
+	 * @param string $file    Full path to the file.
+	 * @param string $filename File name.
+	 * @param array  $mimes   Allowed MIME types.
+	 * @return array Corrected file data.
+	 */
+	public function fix_3d_filetype_check( array $checked, string $file, string $filename, array $mimes ): array {
+		$ext = strtolower( pathinfo( $filename, PATHINFO_EXTENSION ) );
+
+		if ( 'glb' === $ext ) {
+			$checked['ext']  = 'glb';
+			$checked['type'] = 'model/gltf-binary';
+		} elseif ( 'gltf' === $ext ) {
+			$checked['ext']  = 'gltf';
+			$checked['type'] = 'model/gltf+json';
+		}
+
+		return $checked;
 	}
 
 	/**

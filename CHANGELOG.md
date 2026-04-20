@@ -1,6 +1,25 @@
 # CHANGELOG — WP 3D Model Viewer Plugin
 > ห้ามเขียนทับ — เพิ่มรายการใหม่ด้านบนเสมอ (newest first)
 
+
+
+---
+
+## [1.8.0] — 2026-04-17 — Part 9: Bugfix #14 — GLB/GLTF upload blocked by WordPress
+
+### Fixed
+- `public/class-wp3dmv-public.php` v1.0.2 → v1.0.3
+  - เพิ่ม `allow_3d_upload_mimes()` — hook: `upload_mimes`
+    เพิ่ม `.glb` (model/gltf-binary) และ `.gltf` (model/gltf+json)
+    เข้า allowed MIME types ของ WordPress
+  - เพิ่ม `fix_3d_filetype_check()` — hook: `wp_check_filetype_and_ext`
+    แก้กรณี finfo/mime_content_type คืน `application/octet-stream` สำหรับ .glb
+    → WordPress reject upload ด้วย "This file cannot be processed"
+
+- `includes/class-wp3dmv-core.php` v1.0.2 → v1.0.3
+  - define_public_hooks(): register filter `upload_mimes` และ
+    `wp_check_filetype_and_ext` (priority 10, 4 args)
+
 ---
 
 ## [1.7.9] — 2026-04-16 — Part 9: Bugfix #13 — Model squished after exit fullscreen
