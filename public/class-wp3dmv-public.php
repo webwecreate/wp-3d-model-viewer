@@ -6,7 +6,7 @@
  *
  * @package    WP3DModelViewer
  * @subpackage WP3DModelViewer/public
- * @version    1.0.3
+ * @version    1.0.4
  * @since      1.0.0
  */
 
@@ -183,21 +183,27 @@ class WP3DMV_Public {
 	 *
 	 * Hook: wp_check_filetype_and_ext
 	 *
-	 * @param array  $checked File data array.
-	 * @param string $file    Full path to the file.
-	 * @param string $filename File name.
-	 * @param array  $mimes   Allowed MIME types.
+	 * @param array       $checked  File data array.
+	 * @param string      $file     Full path to the file.
+	 * @param string|null $filename File name.
+	 * @param array       $mimes    Allowed MIME types.
 	 * @return array Corrected file data.
 	 */
-	public function fix_3d_filetype_check( array $checked, string $file, string $filename, array $mimes ): array {
+	public function fix_3d_filetype_check( $checked, $file, $filename, $mimes ): array {
+		if ( empty( $filename ) ) {
+			return $checked;
+		}
+
 		$ext = strtolower( pathinfo( $filename, PATHINFO_EXTENSION ) );
 
 		if ( 'glb' === $ext ) {
-			$checked['ext']  = 'glb';
-			$checked['type'] = 'model/gltf-binary';
+			$checked['ext']             = 'glb';
+			$checked['type']            = 'model/gltf-binary';
+			$checked['proper_filename'] = false;
 		} elseif ( 'gltf' === $ext ) {
-			$checked['ext']  = 'gltf';
-			$checked['type'] = 'model/gltf+json';
+			$checked['ext']             = 'gltf';
+			$checked['type']            = 'model/gltf+json';
+			$checked['proper_filename'] = false;
 		}
 
 		return $checked;
